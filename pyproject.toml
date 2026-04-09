@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "zti"
 version = "1.0.0"
-description = "Zero Trust Intelligence — a protocol for verifiable AI systems"
+description = "Zero Trust Intelligence — a decision verification protocol and control layer for AI-driven systems"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
