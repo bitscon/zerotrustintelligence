@@ -1,16 +1,17 @@
 # Zero Trust Intelligence (ZTI)
 
-## A Protocol for Verifiable AI Systems
+## A Decision Verification Protocol for AI-Driven Systems
 
-Artificial intelligence systems produce outputs that appear intelligent.
-But they are not inherently trustworthy.
+AI output is not a decision. A decision is something that can be proven.
 
-Zero Trust Intelligence (ZTI) introduces a deterministic verification layer
-that transforms AI outputs into provable, auditable, and tamper-evident decisions.
+Zero Trust Intelligence (ZTI) introduces a deterministic decision verification layer
+that transforms AI proposals into provable, auditable, and tamper-evident decision artifacts.
+
+Don't trust AI. Verify it.
 
 ZTI does not make AI smarter.
 
-It makes AI accountable.
+It defines when AI output is allowed to act.
 
 Zero Trust Intelligence (ZTI)
 Author: Chad McCormack
@@ -25,10 +26,14 @@ Author: Chad McCormack
 
 ZTI defines a new architectural layer in modern systems:
 
-**The Intelligence Trust Layer**
+The deterministic decision verification layer, also described here as the Intelligence Trust Layer.
 
 ```text
-AI System -> Intelligence Trust Layer -> Execution System
+AI (stochastic generation layer)
+↓
+ZTI (deterministic decision verification layer)
+↓
+Execution systems
 ```
 
 This layer does not generate intelligence.
@@ -40,17 +45,37 @@ It enforces one rule:
 
 ---
 
+## AI vs ZTI
+
+AI and ZTI are not competing systems. They are two different kinds of system at two different positions in the execution stack.
+
+**AI:**
+- Probabilistic and generative
+- Exploratory, useful for proposing options
+- Not a decision system — a proposal system
+
+**ZTI:**
+- Deterministic and restrictive
+- Enforcement-based, reproducible
+- Not an intelligence system — a verification system
+
+> ZTI does not constrain how AI thinks. It constrains what AI is allowed to do.
+
+---
+
 ## The Core Principle
 
 No decision is trusted unless it is proven.
 
+AI generates. ZTI verifies. Only verified decisions execute.
+
 A decision is only valid if it is:
 
-- Deterministically derived
-- Fully explainable
-- Strictly validated
-- Cryptographically verifiable
-- Lineage-bound to its origin
+- Mapped to an allowed decision type
+- Explained in explicit artifact form
+- Validated against declared constraints
+- Cryptographically sealed
+- Lineage-bound to origin and approvals
 
 If any condition fails:
 
@@ -80,12 +105,12 @@ Lineage
 VERIFIED DECISION
 ```
 
-- Pattern Registry defines what is allowed.
-- Detection determines what applies.
-- Explainability produces a complete reasoning trace.
-- Validation enforces correctness.
+- Pattern Registry defines the contract of allowed decision classes, schemas, and constraints.
+- Detection determines what applies via deterministic classification — no inference, no probability.
+- Explainability produces an explicit evidence artifact for why the proposal matched.
+- Validation enforces admissibility against explicit constraints.
 - Integrity locks the decision with cryptographic sealing and chaining.
-- Lineage tracks origin and approval history.
+- Lineage tracks provenance, approvals, and historical linkage.
 
 ---
 
@@ -99,62 +124,41 @@ A Verified Decision is:
 - Sealed
 - Traceable
 
+A Verified Decision is not proof that the AI was right. It is proof that the proposal satisfied the execution contract.
+
 Only Verified Decisions are allowed to cross system boundaries.
 
 Everything else is discarded.
 
 ---
 
-## Determinism as a Requirement
+## Deterministic Verification, Not Deterministic AI
 
-ZTI systems are:
+The verification of a decision must be deterministic and reproducible.
 
-- Deterministic
-- Schema-bound
-- Fully reproducible
+The AI generation process does not have to be.
 
-There is:
+Verification requires no randomness, no implicit behavior, no hidden state.
 
-- No randomness
-- No implicit behavior
-- No hidden state
+If a verification result cannot be reproduced, it is invalid.
 
-If a result cannot be reproduced:
-
-It is invalid.
+This constraint applies to the verification layer — not to the AI system being verified.
 
 ---
 
-## Fail-Closed Systems
+## Audit Mode and Enforcement Mode
 
-ZTI does not degrade gracefully.
+ZTI operates in two modes.
 
-It fails deliberately.
+**Audit Mode** — observe, classify, validate, seal, and report without blocking execution. Use this to build visibility into AI-generated proposals before enforcement is active.
 
-If verification cannot be completed:
-
-**The decision is rejected.**
-
-This prevents uncertainty from entering execution systems.
+**Enforcement Mode** — the execution boundary is fail-closed. Unverifiable outputs do not execute. Fail-closed applies to execution authorization — not general system usability.
 
 ---
 
-## Cryptographic Decision Chains
+## Reference Implementation
 
-Each decision is recorded as a tamper-evident record:
-
-- Decision hash
-- Previous hash
-- Timestamp
-- Version
-
-If any record is altered:
-
-The entire chain becomes invalid.
-
----
-
-## Simple Example
+The following example is a reference implementation of the deterministic verification components — pattern detection, explainability, integrity chaining, and lineage. It demonstrates the verification pipeline, not model behavior improvement.
 
 ```python
 from zti import (
@@ -200,21 +204,35 @@ assert valid is True and err is None
 
 ZTI does not:
 
-- Improve AI accuracy
+- Improve AI intelligence
+- Prevent hallucinations
+- Replace model safety research
+- Guarantee correctness of AI outputs
 - Replace AI models
-- Execute actions
-- Provide autonomy
 - Act as an agent framework
+- Serve as a general-purpose library or model
 
-ZTI is a constraint system.
+ZTI does:
 
-It enforces trust boundaries on intelligence.
+- Define when AI output is allowed to become a decision
+- Enforce verification before execution
+- Provide auditability, lineage, and integrity guarantees
+
+---
+
+## Example: Infrastructure Change
+
+An AI agent generates a Terraform plan. ZTI classifies it into an approved infrastructure-change decision type, then validates policy constraints: approved modules, permitted regions, blast-radius limits, required approvals, schema compliance.
+
+ZTI emits an explanation artifact and seals a reproducible decision artifact. Only that verified artifact is allowed to reach the execution system. If verification fails, the proposal is logged in audit mode or blocked in enforcement mode.
+
+Auditors can later reconstruct what was proposed, which policy it passed against, who approved it, and which artifact hash reached execution.
 
 ---
 
 ## Where This Matters
 
-ZTI becomes critical anywhere decisions have consequences:
+ZTI becomes critical anywhere AI-generated proposals drive consequential execution:
 
 - Infrastructure automation
 - Security enforcement
@@ -222,7 +240,7 @@ ZTI becomes critical anywhere decisions have consequences:
 - Compliance and audit pipelines
 - Autonomous systems
 
-As systems become more automated, verification becomes non-optional.
+As systems become more automated, the boundary between proposal and execution becomes the highest-risk surface in the architecture.
 
 ---
 

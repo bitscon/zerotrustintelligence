@@ -1,0 +1,4 @@
+RewriteEngine On
+
+RewriteRule ^adopt/?$ /adopt/index.html [L]
+RewriteRule ^core/?$ /core/index.html [L]

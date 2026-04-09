@@ -1,0 +1,216 @@
+{
+  "name": "ZTI Launch Automation",
+  "nodes": [
+    {
+      "id": "a1b2c3d4-0001-0001-0001-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "zti-launch",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "webhookId": "zti-launch-webhook"
+    },
+    {
+      "id": "a1b2c3d4-0002-0002-0002-000000000002",
+      "name": "ZTI Posts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300],
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      posts: [\n        'AI output is not a decision.',\n        'AI systems today have no execution boundary.',\n        'Guardrails don\\'t stop execution. ZTI does.',\n        'AI generates. ZTI verifies. Only verified decisions execute.',\n        'AI systems without an execution boundary are incomplete.'\n      ]\n    }\n  }\n];"
+      }
+    },
+    {
+      "id": "a1b2c3d4-0003-0003-0003-000000000003",
+      "name": "Select Random Post",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300],
+      "parameters": {
+        "jsCode": "const posts = $input.first().json.posts;\nconst idx = Math.floor(Math.random() * posts.length);\nconst selected = posts[idx];\nreturn [{ json: { selected_post: selected } }];"
+      }
+    },
+    {
+      "id": "a1b2c3d4-0004-0004-0004-000000000004",
+      "name": "Post to Social Platform",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.social-platform.com/post",
+        "authentication": "none",
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({ content: $json.selected_post }) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "a1b2c3d4-0005-0005-0005-000000000005",
+      "name": "Prepare Outreach Messages",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 300],
+      "parameters": {
+        "jsCode": "const selectedPost = $('Select Random Post').first().json.selected_post;\nreturn [\n  {\n    json: {\n      recipient: 'Platform Engineering Lead',\n      message: 'AI output is not a decision \\u2014 there\\'s no standard execution boundary between what AI proposes and what systems act on. We built a protocol for that layer: github.com/bitscon/zerotrustintelligence',\n      selected_post: selectedPost\n    }\n  },\n  {\n    json: {\n      recipient: 'Security Lead',\n      message: 'AI-driven automation has no standard execution boundary. Every AI-generated action proposal reaches execution without a deterministic verification contract. ZTI is the protocol for that boundary: github.com/bitscon/zerotrustintelligence',\n      selected_post: selectedPost\n    }\n  },\n  {\n    json: {\n      recipient: 'DevOps Lead',\n      message: 'AI agents proposing Terraform changes, CI\\/CD configs, deployment actions \\u2014 without a verified execution boundary. ZTI defines that layer. Protocol and reference implementation: github.com/bitscon/zerotrustintelligence',\n      selected_post: selectedPost\n    }\n  }\n];"
+      }
+    },
+    {
+      "id": "a1b2c3d4-0006-0006-0006-000000000006",
+      "name": "Split In Batches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [1340, 300],
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      }
+    },
+    {
+      "id": "a1b2c3d4-0007-0007-0007-000000000007",
+      "name": "Send Outreach",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1560, 180],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.messaging-service.com/send",
+        "authentication": "none",
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ JSON.stringify({ recipient: $json.recipient, message: $json.message }) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "a1b2c3d4-0008-0008-0008-000000000008",
+      "name": "Format Log",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1560, 420],
+      "parameters": {
+        "jsCode": "const selectedPost = $('Select Random Post').first().json.selected_post;\nreturn [\n  {\n    json: {\n      post_sent: selectedPost,\n      outreach_count: 3,\n      outreach_recipients: [\n        'Platform Engineering Lead',\n        'Security Lead',\n        'DevOps Lead'\n      ],\n      status: 'complete',\n      timestamp: new Date().toISOString()\n    }\n  }\n];"
+      }
+    },
+    {
+      "id": "a1b2c3d4-0009-0009-0009-000000000009",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1780, 420],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "ZTI Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ZTI Posts": {
+      "main": [
+        [
+          {
+            "node": "Select Random Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select Random Post": {
+      "main": [
+        [
+          {
+            "node": "Post to Social Platform",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Social Platform": {
+      "main": [
+        [
+          {
+            "node": "Prepare Outreach Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Outreach Messages": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split In Batches": {
+      "main": [
+        [
+          {
+            "node": "Send Outreach",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Outreach": {
+      "main": [
+        [
+          {
+            "node": "Split In Batches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Log": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "id": "zti-launch-workflow-v1"
+}
