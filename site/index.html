@@ -20,29 +20,25 @@
     .card { background: var(--surface); border: 1px solid var(--border); }
     .accent { color: var(--accent); }
     section { border-top: 1px solid var(--border); }
+    #zti-global-nav { position: sticky; top: 0; z-index: 60; border-bottom: 1px solid var(--border); background: var(--bg); }
+    .zti-global-nav { width: 100%; }
+    .zti-nav-shell { max-width: 72rem; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .zti-logo { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); text-decoration: none; }
+    .zti-nav-links { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+    .zti-nav-links a { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; text-decoration: none; color: var(--muted); opacity: 0.7; transition: opacity 0.2s ease, color 0.2s ease; }
+    .zti-nav-links a:hover { opacity: 1; color: var(--text); }
+    .zti-nav-links a.active { opacity: 1; color: var(--accent); font-weight: 600; }
+    .zti-cta a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s ease; }
+    .zti-cta a:hover { border-color: var(--accent); }
+    @media (max-width: 640px) {
+      .zti-nav-shell { padding: 0.75rem 1rem; }
+      .zti-nav-links { width: 100%; gap: 1rem; }
+    }
   </style>
 </head>
 <body class="antialiased">
 
-  <!-- NAV -->
-  <nav class="sticky top-0 z-50 border-b" style="background:var(--bg); border-color:var(--border);">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-      <span class="mono text-xs tracking-widest uppercase">ZTI</span>
-      <div class="mono text-xs text-[#8a8a8a] flex gap-6 flex-wrap">
-        <a href="#problem" class="hover:text-white">Problem</a>
-        <a href="#principle" class="hover:text-white">Principle</a>
-        <a href="#ai-vs-zti" class="hover:text-white">AI vs ZTI</a>
-        <a href="#architecture" class="hover:text-white">Architecture</a>
-        <a href="#what-zti-is-not" class="hover:text-white">What ZTI Is Not</a>
-        <a href="#stack" class="hover:text-white">Stack</a>
-        <a href="#threat-model" class="hover:text-white">Threat Model</a>
-        <a href="#example" class="hover:text-white">Example</a>
-        <a href="#economic-impact" class="hover:text-white">Economics</a>
-        <a href="#legal" class="hover:text-white">Legal</a>
-        <a href="#cta" class="hover:text-white">Whitepaper</a>
-      </div>
-    </div>
-  </nav>
+  <div id="zti-global-nav"></div>
 
   <!-- HERO -->
   <section id="hero" class="border-t-0 px-6 py-28 md:py-36">
@@ -61,6 +57,17 @@
       <div class="flex flex-wrap gap-4">
         <a href="#cta" class="mono text-sm px-6 py-3 border border-[#f5a623] text-[#f5a623] hover:bg-[#f5a623] hover:text-black transition">Read Whitepaper</a>
         <a href="https://github.com/bitscon/zerotrustintelligence" class="mono text-sm px-6 py-3 border border-[#2a2a2a] text-[#a0a0a0] hover:text-white hover:border-white transition">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 py-12">
+    <div class="max-w-6xl mx-auto">
+      <div class="card p-6 zti-cta">
+        <p>
+          Move from theory to implementation ->
+          <a href="/adopt">Adopt ZTI</a>
+        </p>
       </div>
     </div>
   </section>
@@ -470,6 +477,48 @@
     <p>Author: Chad McCormack</p>
     <p>© 2026 Chad McCormack</p>
   </footer>
+
+  <script>
+    (function () {
+      const navContainer = document.getElementById("zti-global-nav");
+      if (!navContainer) return;
+
+      const navUrl = "/shared/global-nav.html";
+
+      const normalizePath = (pathname) => {
+        const normalized = pathname.replace(/\/+$/g, "");
+        return normalized || "/";
+      };
+
+      const isAdoptPath = (p) => p === "/adopt" || p.startsWith("/adopt/");
+      const isCorePath  = (p) => p === "/core"  || p.startsWith("/core/");
+
+      const applyActiveState = () => {
+        const currentPath = normalizePath(window.location.pathname);
+        document.querySelectorAll("#zti-global-nav .zti-nav-links a").forEach((link) => {
+          const site = link.dataset.site;
+          let active = false;
+          if (site === "adopt")         active = isAdoptPath(currentPath);
+          else if (site === "core")     active = isCorePath(currentPath);
+          else if (site === "protocol") active = !isAdoptPath(currentPath) && !isCorePath(currentPath);
+          link.classList.toggle("active", active);
+        });
+      };
+
+      fetch(navUrl)
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to load global nav");
+          return res.text();
+        })
+        .then((html) => {
+          navContainer.innerHTML = html;
+          applyActiveState();
+        })
+        .catch((err) => {
+          console.error("Unable to load global navigation.", err);
+        });
+    })();
+  </script>
 
 </body>
 </html>
