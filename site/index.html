@@ -4,9 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zero Trust Intelligence (ZTI) | A Decision Verification Protocol for AI-Driven Systems</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/tailwindcss.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
     :root {
       --bg: #090909;
       --surface: #111111;
@@ -20,25 +19,22 @@
     .card { background: var(--surface); border: 1px solid var(--border); }
     .accent { color: var(--accent); }
     section { border-top: 1px solid var(--border); }
-    #zti-global-nav { position: sticky; top: 0; z-index: 60; border-bottom: 1px solid var(--border); background: var(--bg); }
-    .zti-global-nav { width: 100%; }
-    .zti-nav-shell { max-width: 72rem; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
-    .zti-logo { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); text-decoration: none; }
-    .zti-nav-links { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
-    .zti-nav-links a { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; text-decoration: none; color: var(--muted); opacity: 0.7; transition: opacity 0.2s ease, color 0.2s ease; }
-    .zti-nav-links a:hover { opacity: 1; color: var(--text); }
-    .zti-nav-links a.active { opacity: 1; color: var(--accent); font-weight: 600; }
-    .zti-cta a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s ease; }
-    .zti-cta a:hover { border-color: var(--accent); }
+    .zti-global-nav { position: sticky; top: 0; z-index: 60; border-bottom: 1px solid var(--border); background: var(--bg); width: 100%; padding: 1rem 1.5rem; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .zti-global-nav a { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; text-decoration: none; color: var(--muted); opacity: 0.7; transition: opacity 0.2s ease, color 0.2s ease; }
+    .zti-global-nav a:hover { opacity: 1; color: var(--text); }
+    .zti-global-nav a.active { opacity: 1; color: var(--accent); font-weight: 600; }
     @media (max-width: 640px) {
-      .zti-nav-shell { padding: 0.75rem 1rem; }
-      .zti-nav-links { width: 100%; gap: 1rem; }
+      .zti-global-nav { padding: 0.75rem 1rem; gap: 1rem; }
     }
   </style>
 </head>
 <body class="antialiased">
 
-  <div id="zti-global-nav"></div>
+  <nav class="zti-global-nav">
+    <a href="/" data-nav="protocol">Protocol</a>
+    <a href="/adopt" data-nav="adopt">Adopt</a>
+    <a href="/core" data-nav="core">Core</a>
+  </nav>
 
   <!-- HERO -->
   <section id="hero" class="border-t-0 px-6 py-28 md:py-36">
@@ -55,19 +51,8 @@
         It does not make AI smarter. It defines when AI output is allowed to act.
       </p>
       <div class="flex flex-wrap gap-4">
-        <a href="#cta" class="mono text-sm px-6 py-3 border border-[#f5a623] text-[#f5a623] hover:bg-[#f5a623] hover:text-black transition">Read Whitepaper</a>
-        <a href="https://github.com/bitscon/zerotrustintelligence" class="mono text-sm px-6 py-3 border border-[#2a2a2a] text-[#a0a0a0] hover:text-white hover:border-white transition">GitHub</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="px-6 py-12">
-    <div class="max-w-6xl mx-auto">
-      <div class="card p-6 zti-cta">
-        <p>
-          Move from theory to implementation ->
-          <a href="/adopt">Adopt ZTI</a>
-        </p>
+        <a href="#cta" class="mono text-sm px-6 py-3 border border-[#f5a623] text-[#f5a623] hover:bg-[#f5a623] hover:text-black transition">Protocol Whitepaper</a>
+        <a href="/core" class="mono text-sm px-6 py-3 border border-[#2a2a2a] text-[#a0a0a0] hover:text-white hover:border-white transition">GitHub</a>
       </div>
     </div>
   </section>
@@ -465,9 +450,9 @@
 
   <!-- CTA -->
   <section id="cta" class="px-6 py-28 text-center">
-    <h2 class="text-4xl font-light mb-6">Read the Whitepaper</h2>
-    <a href="../whitepaper/zti-whitepaper.md" class="mono border px-6 py-3 border-[#f5a623] text-[#f5a623] hover:bg-[#f5a623] hover:text-black">
-      Open Whitepaper
+    <h2 class="text-4xl font-light mb-6">Protocol Whitepaper</h2>
+    <a href="/adopt" class="mono border px-6 py-3 border-[#f5a623] text-[#f5a623] hover:bg-[#f5a623] hover:text-black">
+      Whitepaper Source
     </a>
   </section>
 
@@ -478,46 +463,29 @@
     <p>© 2026 Chad McCormack</p>
   </footer>
 
+  <section class="zti-transition">
+    <h2>From Theory to Implementation</h2>
+    <p>
+      Zero Trust Intelligence defines the model.
+      Adoption shows how to apply it in practice.
+    </p>
+    <a href="/adopt">Explore Adoption →</a>
+  </section>
+
   <script>
-    (function () {
-      const navContainer = document.getElementById("zti-global-nav");
-      if (!navContainer) return;
+  (function () {
+    const path = window.location.pathname;
 
-      const navUrl = "/shared/global-nav.html";
+    let current = "protocol";
+    if (path.startsWith("/adopt")) current = "adopt";
+    if (path.startsWith("/core")) current = "core";
 
-      const normalizePath = (pathname) => {
-        const normalized = pathname.replace(/\/+$/g, "");
-        return normalized || "/";
-      };
-
-      const isAdoptPath = (p) => p === "/adopt" || p.startsWith("/adopt/");
-      const isCorePath  = (p) => p === "/core"  || p.startsWith("/core/");
-
-      const applyActiveState = () => {
-        const currentPath = normalizePath(window.location.pathname);
-        document.querySelectorAll("#zti-global-nav .zti-nav-links a").forEach((link) => {
-          const site = link.dataset.site;
-          let active = false;
-          if (site === "adopt")         active = isAdoptPath(currentPath);
-          else if (site === "core")     active = isCorePath(currentPath);
-          else if (site === "protocol") active = !isAdoptPath(currentPath) && !isCorePath(currentPath);
-          link.classList.toggle("active", active);
-        });
-      };
-
-      fetch(navUrl)
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to load global nav");
-          return res.text();
-        })
-        .then((html) => {
-          navContainer.innerHTML = html;
-          applyActiveState();
-        })
-        .catch((err) => {
-          console.error("Unable to load global navigation.", err);
-        });
-    })();
+    document.querySelectorAll("[data-nav]").forEach(link => {
+      if (link.dataset.nav === current) {
+        link.classList.add("active");
+      }
+    });
+  })();
   </script>
 
 </body>

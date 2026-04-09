@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Adopt ZTI | Zero Trust Intelligence — Decision Verification Protocol</title>
   <meta name="description" content="Zero Trust Intelligence (ZTI) is a decision verification protocol and control layer between stochastic AI generation and real-world execution. Learn how to adopt ZTI in your systems." />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/tailwindcss.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
     :root {
       --bg: #090909;
       --surface: #111111;
@@ -25,25 +24,24 @@
     .step-num { font-family: 'IBM Plex Mono', monospace; color: var(--accent); font-size: 0.7rem; min-width: 1.5rem; }
     .boundary-line { border-left: 2px solid var(--accent); }
     .tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6f6f6f; }
-    #zti-global-nav { position: sticky; top: 0; z-index: 60; border-bottom: 1px solid var(--border); background: var(--bg); }
-    .zti-global-nav { width: 100%; }
-    .zti-nav-shell { max-width: 72rem; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
-    .zti-logo { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); text-decoration: none; }
-    .zti-nav-links { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
-    .zti-nav-links a { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; text-decoration: none; color: var(--muted); opacity: 0.7; transition: opacity 0.2s ease, color 0.2s ease; }
-    .zti-nav-links a:hover { opacity: 1; color: var(--text); }
-    .zti-nav-links a.active { opacity: 1; color: var(--accent); font-weight: 600; }
+    .zti-global-nav { position: sticky; top: 0; z-index: 60; border-bottom: 1px solid var(--border); background: var(--bg); width: 100%; padding: 1rem 1.5rem; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .zti-global-nav a { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; text-decoration: none; color: var(--muted); opacity: 0.7; transition: opacity 0.2s ease, color 0.2s ease; }
+    .zti-global-nav a:hover { opacity: 1; color: var(--text); }
+    .zti-global-nav a.active { opacity: 1; color: var(--accent); font-weight: 600; }
     .zti-reference a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s ease; }
     .zti-reference a:hover { border-color: var(--accent); }
     @media (max-width: 640px) {
-      .zti-nav-shell { padding: 0.75rem 1rem; }
-      .zti-nav-links { width: 100%; gap: 1rem; }
+      .zti-global-nav { padding: 0.75rem 1rem; gap: 1rem; }
     }
   </style>
 </head>
 <body class="antialiased">
 
-  <div id="zti-global-nav"></div>
+  <nav class="zti-global-nav">
+    <a href="/" data-nav="protocol">Protocol</a>
+    <a href="/adopt" data-nav="adopt">Adopt</a>
+    <a href="/core" data-nav="core">Core</a>
+  </nav>
 
   <!-- HERO -->
   <section id="hero" class="border-t-0 px-6 py-28 md:py-36">
@@ -61,7 +59,7 @@
       </p>
       <div class="flex flex-wrap gap-4">
         <a href="#pilot" class="mono text-sm px-6 py-3 border border-[#f5a623] text-[#f5a623] hover:bg-[#f5a623] hover:text-black transition">Start a Pilot →</a>
-        <a href="https://github.com/bitscon/zerotrustintelligence" class="mono text-sm px-6 py-3 border border-[#2a2a2a] text-[#a0a0a0] hover:text-white hover:border-white transition">Protocol Specification</a>
+        <a href="/" class="mono text-sm px-6 py-3 border border-[#2a2a2a] text-[#a0a0a0] hover:text-white hover:border-white transition">Protocol Specification</a>
         <a href="#example" class="mono text-sm px-6 py-3 border border-[#2a2a2a] text-[#a0a0a0] hover:text-white hover:border-white transition">See the Demo</a>
       </div>
     </div>
@@ -116,7 +114,7 @@
   <!-- THE SHIFT -->
   <section id="shift" class="px-6 py-24" style="background:var(--surface2);">
     <div class="max-w-6xl mx-auto">
-      <p class="tag mb-4">2. The Shift</p>
+      <p class="tag mb-4">2. Why AI Cannot Be Trusted</p>
       <h2 class="text-3xl md:text-4xl font-light mb-4">AI output is not a decision.</h2>
       <p class="text-2xl text-[#c8c8c8] font-light mb-8">A decision is something that can be proven.</p>
       <div class="grid md:grid-cols-2 gap-8 max-w-4xl">
@@ -151,7 +149,7 @@
   <!-- THE LAYER -->
   <section id="layer" class="px-6 py-24">
     <div class="max-w-6xl mx-auto">
-      <p class="tag mb-4">3. The Layer</p>
+      <p class="tag mb-4">3. The ZTI Approach</p>
       <h2 class="text-3xl md:text-4xl font-light mb-4">ZTI is the deterministic decision verification layer.</h2>
       <p class="text-[#9a9a9a] max-w-3xl mb-10 leading-relaxed">
         ZTI does not constrain how AI thinks. It constrains what AI is allowed to do.
@@ -186,53 +184,11 @@
     </div>
   </section>
 
-  <!-- ARCHITECTURE -->
-  <section id="architecture" class="px-6 py-24" style="background:var(--surface2);">
-    <div class="max-w-6xl mx-auto">
-      <p class="tag mb-4">4. Architecture</p>
-      <h2 class="text-3xl font-light mb-4">Six layers. One boundary.</h2>
-      <p class="text-[#9a9a9a] max-w-3xl mb-8 leading-relaxed">
-        ZTI transforms AI proposals into verified decision artifacts through a deterministic pipeline.
-        ZTI does not require a complete model of all valid decisions —
-        only explicit constraints on what is allowed to execute.
-      </p>
-      <div class="card p-5 mono text-xs text-[#a8a8a8] max-w-2xl mb-8 leading-loose">
-        INPUT (AI Output) → Registry → Detection → Explainability → Validation → Integrity → Lineage → VERIFIED DECISION
-      </div>
-      <div class="grid md:grid-cols-3 gap-4">
-        <div class="card p-6">
-          <p class="mono text-xs uppercase accent mb-2">Pattern Registry</p>
-          <p class="text-sm text-[#9a9a9a] leading-relaxed">Contract of allowed decision classes, schemas, and constraints. Closed, explicit, and immutable during execution.</p>
-        </div>
-        <div class="card p-6">
-          <p class="mono text-xs uppercase accent mb-2">Detection</p>
-          <p class="text-sm text-[#9a9a9a] leading-relaxed">Deterministic classification of a proposal into an allowed class. No inference. No probability.</p>
-        </div>
-        <div class="card p-6">
-          <p class="mono text-xs uppercase accent mb-2">Explainability</p>
-          <p class="text-sm text-[#9a9a9a] leading-relaxed">Explicit evidence artifact for why the proposal matched. Every conclusion must be justified.</p>
-        </div>
-        <div class="card p-6">
-          <p class="mono text-xs uppercase accent mb-2">Validation</p>
-          <p class="text-sm text-[#9a9a9a] leading-relaxed">Admissibility checks against declared rules — not a universal truth test. Ambiguity is treated as failure.</p>
-        </div>
-        <div class="card p-6">
-          <p class="mono text-xs uppercase accent mb-2">Integrity</p>
-          <p class="text-sm text-[#9a9a9a] leading-relaxed">Tamper-evident sealing of the decision artifact. Cryptographically sealed and chained.</p>
-        </div>
-        <div class="card p-6">
-          <p class="mono text-xs uppercase accent mb-2">Lineage</p>
-          <p class="text-sm text-[#9a9a9a] leading-relaxed">Provenance, approvals, and historical linkage. Every verified decision has a traceable history.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXAMPLE -->
+  <!-- WHAT CHANGES IN PRACTICE -->
   <section id="example" class="px-6 py-24">
     <div class="max-w-6xl mx-auto">
-      <p class="tag mb-4">5. Example: Infrastructure Change</p>
-      <h2 class="text-3xl font-light mb-4">AI proposes a Terraform change. What happens?</h2>
+      <p class="tag mb-4">4. What Changes in Practice</p>
+      <h2 class="text-3xl font-light mb-4">AI proposes a Terraform change. What changes in practice?</h2>
       <p class="text-[#9a9a9a] mb-10 max-w-3xl leading-relaxed">
         The AI is not stopped. The pathway to unverified execution is.
       </p>
@@ -297,10 +253,62 @@
     </div>
   </section>
 
+  <!-- ARCHITECTURE OVERVIEW -->
+  <section id="architecture" class="px-6 py-24" style="background:var(--surface2);">
+    <div class="max-w-6xl mx-auto">
+      <p class="tag mb-4">5. Architecture Overview</p>
+      <h2 class="text-3xl font-light mb-4">Six layers. One boundary.</h2>
+      <p class="text-[#9a9a9a] max-w-3xl mb-8 leading-relaxed">
+        ZTI transforms AI proposals into verified decision artifacts through a deterministic pipeline.
+        ZTI does not require a complete model of all valid decisions —
+        only explicit constraints on what is allowed to execute.
+      </p>
+      <div class="card p-5 mono text-xs text-[#a8a8a8] max-w-2xl mb-8 leading-loose">
+        INPUT (AI Output) → Registry → Detection → Explainability → Validation → Integrity → Lineage → VERIFIED DECISION
+      </div>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="card p-6">
+          <p class="mono text-xs uppercase accent mb-2">Pattern Registry</p>
+          <p class="text-sm text-[#9a9a9a] leading-relaxed">Contract of allowed decision classes, schemas, and constraints. Closed, explicit, and immutable during execution.</p>
+        </div>
+        <div class="card p-6">
+          <p class="mono text-xs uppercase accent mb-2">Detection</p>
+          <p class="text-sm text-[#9a9a9a] leading-relaxed">Deterministic classification of a proposal into an allowed class. No inference. No probability.</p>
+        </div>
+        <div class="card p-6">
+          <p class="mono text-xs uppercase accent mb-2">Explainability</p>
+          <p class="text-sm text-[#9a9a9a] leading-relaxed">Explicit evidence artifact for why the proposal matched. Every conclusion must be justified.</p>
+        </div>
+        <div class="card p-6">
+          <p class="mono text-xs uppercase accent mb-2">Validation</p>
+          <p class="text-sm text-[#9a9a9a] leading-relaxed">Admissibility checks against declared rules — not a universal truth test. Ambiguity is treated as failure.</p>
+        </div>
+        <div class="card p-6">
+          <p class="mono text-xs uppercase accent mb-2">Integrity</p>
+          <p class="text-sm text-[#9a9a9a] leading-relaxed">Tamper-evident sealing of the decision artifact. Cryptographically sealed and chained.</p>
+        </div>
+        <div class="card p-6">
+          <p class="mono text-xs uppercase accent mb-2">Lineage</p>
+          <p class="text-sm text-[#9a9a9a] leading-relaxed">Provenance, approvals, and historical linkage. Every verified decision has a traceable history.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="next-step" class="px-6 py-24">
+    <div class="max-w-6xl mx-auto">
+      <p class="tag mb-4">6. Next Step</p>
+      <h2 class="text-3xl font-light mb-4">Select one workflow and implement the boundary.</h2>
+      <p class="text-[#9a9a9a] max-w-3xl leading-relaxed">
+        Move from architecture to execution by applying ZTI to one high-impact workflow, then expand from validated results.
+      </p>
+    </div>
+  </section>
+
   <!-- RISK: WITHOUT ZTI -->
   <section id="risk" class="px-6 py-24" style="background:var(--surface2);">
     <div class="max-w-6xl mx-auto">
-      <p class="tag mb-4">6. What Happens Without ZTI</p>
+      <p class="tag mb-4">7. What Happens Without ZTI</p>
       <h2 class="text-3xl font-light mb-4">The absence of an execution boundary has a shape.</h2>
       <p class="text-[#9a9a9a] max-w-3xl mb-10 leading-relaxed">
         Three classes of incident that occur when AI-driven automation has no verified execution boundary.
@@ -337,7 +345,7 @@
   <!-- STAKEHOLDERS -->
   <section id="stakeholders" class="px-6 py-24">
     <div class="max-w-6xl mx-auto">
-      <p class="tag mb-4">7. Stakeholder Relevance</p>
+      <p class="tag mb-4">8. Stakeholder Relevance</p>
       <h2 class="text-3xl font-light mb-10">Who owns this problem and what ZTI answers for each.</h2>
       <div class="grid md:grid-cols-2 gap-6">
 
@@ -430,7 +438,7 @@
   <!-- PILOT -->
   <section id="pilot" class="px-6 py-24" style="background:var(--surface2);">
     <div class="max-w-6xl mx-auto">
-      <p class="tag mb-4">8. Start Here</p>
+      <p class="tag mb-4">9. Implementation Plan</p>
       <h2 class="text-3xl font-light mb-4">One workflow. Two to three weeks. One verified execution boundary.</h2>
       <p class="text-[#9a9a9a] max-w-3xl mb-10 leading-relaxed">
         Not a procurement. Not a platform adoption. A scoped exploration on one existing AI-driven workflow.
@@ -478,8 +486,8 @@
       </div>
 
       <div class="flex flex-wrap gap-4">
-        <a href="https://github.com/bitscon/zerotrustintelligence" class="mono text-sm px-6 py-3 border border-[#f5a623] text-[#f5a623] hover:bg-[#f5a623] hover:text-black transition">Read the Protocol →</a>
-        <a href="https://github.com/bitscon/zerotrustintelligence/blob/master/resources/outreach/pilot.md" class="mono text-sm px-6 py-3 border border-[#2a2a2a] text-[#a0a0a0] hover:text-white hover:border-white transition">Full Pilot Proposal</a>
+        <a href="/" class="mono text-sm px-6 py-3 border border-[#f5a623] text-[#f5a623] hover:bg-[#f5a623] hover:text-black transition">Read the Protocol →</a>
+        <a href="/adopt#pilot" class="mono text-sm px-6 py-3 border border-[#2a2a2a] text-[#a0a0a0] hover:text-white hover:border-white transition">Full Pilot Proposal</a>
       </div>
     </div>
   </section>
@@ -487,7 +495,7 @@
   <!-- PRECEDENT -->
   <section id="precedent" class="px-6 py-24">
     <div class="max-w-6xl mx-auto">
-      <p class="tag mb-4">9. The Precedent</p>
+      <p class="tag mb-4">10. The Precedent</p>
       <h2 class="text-3xl font-light mb-6">This gap has been closed before.</h2>
       <div class="grid md:grid-cols-3 gap-4 mb-8">
         <div class="card p-6">
@@ -524,7 +532,7 @@
       schema validation, and cryptographic logging systems.
     </p>
     <div class="flex flex-wrap gap-4 justify-center mb-12">
-      <a href="https://github.com/bitscon/zerotrustintelligence" class="mono border px-6 py-3 border-[#f5a623] text-[#f5a623] hover:bg-[#f5a623] hover:text-black transition">Protocol Specification →</a>
+      <a href="/" class="mono border px-6 py-3 border-[#f5a623] text-[#f5a623] hover:bg-[#f5a623] hover:text-black transition">Protocol Specification →</a>
       <a href="/" class="mono border px-6 py-3 border-[#2a2a2a] text-[#a0a0a0] hover:text-white hover:border-white transition">Protocol Site</a>
     </div>
     <p class="text-[#4a4a4a] text-sm italic">AI systems without an execution boundary are incomplete.</p>
@@ -539,45 +547,36 @@
         <p>MIT License</p>
       </div>
       <div class="mono text-xs space-y-1 text-right">
-        <p><a href="https://github.com/bitscon/zerotrustintelligence" class="hover:text-white transition">GitHub →</a></p>
+        <p><a href="/" class="hover:text-white transition">GitHub →</a></p>
         <p><a href="/" class="hover:text-white transition">Protocol site →</a></p>
         <p><a href="/adopt" class="hover:text-white transition">Adopt →</a></p>
       </div>
     </div>
   </footer>
 
+  <section class="zti-transition">
+    <h2>Ready to Operationalize?</h2>
+    <p>
+      ZTI can be implemented manually —
+      or enforced automatically.
+    </p>
+    <a href="/core">Explore the Control Layer →</a>
+  </section>
+
   <script>
-    (function () {
-      const navContainer = document.getElementById("zti-global-nav");
-      if (!navContainer) return;
+  (function () {
+    const path = window.location.pathname;
 
-      const navUrl = "/shared/global-nav.html";
+    let current = "protocol";
+    if (path.startsWith("/adopt")) current = "adopt";
+    if (path.startsWith("/core")) current = "core";
 
-      const normalizePath = (pathname) => {
-        const normalized = pathname.replace(/\/+$/g, "");
-        return normalized || "/";
-      };
-
-      const isAdoptPath = (p) => p === "/adopt" || p.startsWith("/adopt/");
-      const isCorePath  = (p) => p === "/core"  || p.startsWith("/core/");
-
-      const applyActiveState = () => {
-        const currentPath = normalizePath(window.location.pathname);
-        document.querySelectorAll("#zti-global-nav .zti-nav-links a").forEach((link) => {
-          const site = link.dataset.site;
-          let active = false;
-          if (site === "adopt")    active = isAdoptPath(currentPath);
-          else if (site === "core") active = isCorePath(currentPath);
-          else if (site === "protocol") active = !isAdoptPath(currentPath) && !isCorePath(currentPath);
-          link.classList.toggle("active", active);
-        });
-      };
-
-      fetch(navUrl)
-        .then((res) => { if (!res.ok) throw new Error("nav load failed"); return res.text(); })
-        .then((html) => { navContainer.innerHTML = html; applyActiveState(); })
-        .catch((err) => { console.error("Unable to load global navigation.", err); });
-    })();
+    document.querySelectorAll("[data-nav]").forEach(link => {
+      if (link.dataset.nav === current) {
+        link.classList.add("active");
+      }
+    });
+  })();
   </script>
 
 </body>

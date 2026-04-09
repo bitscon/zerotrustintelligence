@@ -4,9 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ZTI Core</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/tailwindcss.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
     :root {
       --bg: #090909;
       --surface: #111111;
@@ -17,78 +16,60 @@
     }
     body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; }
     .mono { font-family: 'IBM Plex Mono', monospace; }
-    #zti-global-nav { position: sticky; top: 0; z-index: 60; border-bottom: 1px solid var(--border); background: var(--bg); }
-    .zti-global-nav { width: 100%; }
-    .zti-nav-shell { max-width: 72rem; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
-    .zti-logo { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); text-decoration: none; }
-    .zti-nav-links { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
-    .zti-nav-links a { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; text-decoration: none; color: var(--muted); opacity: 0.7; transition: opacity 0.2s ease, color 0.2s ease; }
-    .zti-nav-links a:hover { opacity: 1; color: var(--text); }
-    .zti-nav-links a.active { opacity: 1; color: var(--accent); font-weight: 600; }
+    .zti-global-nav { position: sticky; top: 0; z-index: 60; border-bottom: 1px solid var(--border); background: var(--bg); width: 100%; padding: 1rem 1.5rem; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .zti-global-nav a { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; text-decoration: none; color: var(--muted); opacity: 0.7; transition: opacity 0.2s ease, color 0.2s ease; }
+    .zti-global-nav a:hover { opacity: 1; color: var(--text); }
+    .zti-global-nav a.active { opacity: 1; color: var(--accent); font-weight: 600; }
     @media (max-width: 640px) {
-      .zti-nav-shell { padding: 0.75rem 1rem; }
-      .zti-nav-links { width: 100%; gap: 1rem; }
+      .zti-global-nav { padding: 0.75rem 1rem; gap: 1rem; }
     }
   </style>
 </head>
 <body class="antialiased">
 
-  <div id="zti-global-nav"></div>
+  <nav class="zti-global-nav">
+    <a href="/" data-nav="protocol">Protocol</a>
+    <a href="/adopt" data-nav="adopt">Adopt</a>
+    <a href="/core" data-nav="core">Core</a>
+  </nav>
 
-  <section class="px-6 py-28 md:py-36">
-    <div class="max-w-6xl mx-auto">
-      <p class="mono text-xs tracking-widest text-[#6f6f6f] uppercase mb-8">ZTI Core</p>
-      <h1 class="text-5xl md:text-6xl font-light mb-6">Coming soon.</h1>
-      <p class="text-xl text-[#9a9a9a] font-light max-w-2xl">
-        ZTI Core is the reference runtime for the decision verification protocol.
-        Implementation details and documentation are in progress.
-      </p>
-      <div class="mt-10 flex flex-wrap gap-4">
-        <a href="/" class="mono text-sm px-6 py-3 border border-[#2a2a2a] text-[#a0a0a0] hover:text-white hover:border-white transition">Protocol</a>
-        <a href="/adopt" class="mono text-sm px-6 py-3 border border-[#2a2a2a] text-[#a0a0a0] hover:text-white hover:border-white transition">Adopt ZTI</a>
-        <a href="https://github.com/bitscon/zerotrustintelligence" class="mono text-sm px-6 py-3 border border-[#2a2a2a] text-[#a0a0a0] hover:text-white hover:border-white transition">GitHub</a>
-      </div>
-    </div>
+  <section class="core-hero">
+    <h1>ZTI Core</h1>
+    <p>The execution layer for verifiable AI systems.</p>
+  </section>
+
+  <section class="core-boundary">
+    <p>
+      ZTI defines the model.
+      Adoption shows how to apply it.
+      Core enforces it.
+    </p>
+  </section>
+
+  <section class="core-capabilities">
+    <h2>What It Does</h2>
+    <ul>
+      <li>Deterministic validation enforcement</li>
+      <li>Rejection of unverifiable outputs</li>
+      <li>Decision lineage tracking</li>
+      <li>Audit-ready proof generation</li>
+    </ul>
   </section>
 
   <script>
-    (function () {
-      const navContainer = document.getElementById("zti-global-nav");
-      if (!navContainer) return;
+  (function () {
+    const path = window.location.pathname;
 
-      const normalizePath = (pathname) => {
-        const normalized = pathname.replace(/\/+$/g, "");
-        return normalized || "/";
-      };
+    let current = "protocol";
+    if (path.startsWith("/adopt")) current = "adopt";
+    if (path.startsWith("/core")) current = "core";
 
-      const isAdoptPath = (p) => p === "/adopt" || p.startsWith("/adopt/");
-      const isCorePath  = (p) => p === "/core"  || p.startsWith("/core/");
-
-      const applyActiveState = () => {
-        const currentPath = normalizePath(window.location.pathname);
-        document.querySelectorAll("#zti-global-nav .zti-nav-links a").forEach((link) => {
-          const site = link.dataset.site;
-          let active = false;
-          if (site === "adopt")         active = isAdoptPath(currentPath);
-          else if (site === "core")     active = isCorePath(currentPath);
-          else if (site === "protocol") active = !isAdoptPath(currentPath) && !isCorePath(currentPath);
-          link.classList.toggle("active", active);
-        });
-      };
-
-      fetch("/shared/global-nav.html")
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to load global nav");
-          return res.text();
-        })
-        .then((html) => {
-          navContainer.innerHTML = html;
-          applyActiveState();
-        })
-        .catch((err) => {
-          console.error("Unable to load global navigation.", err);
-        });
-    })();
+    document.querySelectorAll("[data-nav]").forEach(link => {
+      if (link.dataset.nav === current) {
+        link.classList.add("active");
+      }
+    });
+  })();
   </script>
 
 </body>
