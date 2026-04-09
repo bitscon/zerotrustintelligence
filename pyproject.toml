@@ -1,15 +1,32 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "zti"
 version = "1.0.0"
-description = "Zero Trust Intelligence — deterministic verification protocol for AI systems"
+description = "Zero Trust Intelligence — a protocol for verifiable AI systems"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Chad McCormack"}]
 keywords = ["ai", "verification", "integrity", "zero-trust", "deterministic"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Security",
+]
+
+[project.urls]
+Homepage = "https://github.com/bitscon/zerotrustintelligence"
+Repository = "https://github.com/bitscon/zerotrustintelligence"
+Documentation = "https://github.com/bitscon/zerotrustintelligence/blob/master/whitepaper/zti-whitepaper.md"
+Issues = "https://github.com/bitscon/zerotrustintelligence/issues"
 
 [tool.setuptools.packages.find]
 include = ["zti*"]

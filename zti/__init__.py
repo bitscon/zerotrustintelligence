@@ -4,9 +4,9 @@ Zero Trust Intelligence (ZTI) — Reference Protocol Implementation
 Author: Chad McCormack
 © 2026 Chad McCormack
 
-Don't trust AI. Verify it.
+No decision is trusted unless it is proven.
 
-Architecture: Registry → Detection → Explainability → Validation → Integrity → Lineage
+Architecture: Pattern Registry -> Detection -> Explainability -> Validation -> Integrity -> Lineage -> Verified Decision
 """
 
 from zti.registry import (

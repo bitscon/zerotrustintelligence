@@ -1,55 +1,160 @@
 # Zero Trust Intelligence (ZTI)
 
-**Don't trust AI. Verify it.**
+## A Protocol for Verifiable AI Systems
 
-**Author:** Chad McCormack  
-**© 2026 Chad McCormack**  
-*(Future ownership may be assigned to a legal entity)*
+Artificial intelligence systems produce outputs that appear intelligent.
+But they are not inherently trustworthy.
 
----
+Zero Trust Intelligence (ZTI) introduces a deterministic verification layer
+that transforms AI outputs into provable, auditable, and tamper-evident decisions.
 
-## Overview
+ZTI does not make AI smarter.
 
-AI outputs are not trustworthy by default. Large language models produce plausible text — not verified facts. They hallucinate. They are consistent within a session and wrong across sessions. They pass every guardrail and still fail in production.
+It makes AI accountable.
 
-The standard response is to add more filters, more human review, more confidence thresholds. None of these produce a deterministic, auditable record of what was verified, when, and by whom.
+Zero Trust Intelligence (ZTI)
+Author: Chad McCormack
+© 2026 Chad McCormack
+(Future ownership may be assigned to a legal entity)
 
-ZTI takes a different position.
-
-**ZTI does not improve AI. It makes AI's trustworthiness irrelevant.**
-
-Every AI output passes through a deterministic verification chain before it is accepted. The chain is fail-closed: if any layer fails, the output is rejected. Every verified decision is recorded in a tamper-evident integrity chain. Every approval event is bound cryptographically to the decision it covers.
-
-The result is not a more reliable AI. It is a system that does not require AI to be reliable.
+*Version 1.0 — April 2026*
 
 ---
 
-## Core Idea
+## What ZTI Is
 
-```
-AI Output → Detection → Explainability → Validation → Integrity → Lineage → Proof
+ZTI defines a new architectural layer in modern systems:
+
+**The Intelligence Trust Layer**
+
+```text
+AI System -> Intelligence Trust Layer -> Execution System
 ```
 
-No step is optional. No step degrades gracefully. Same input, same registry, same output — every time.
+This layer does not generate intelligence.
+It does not execute actions.
+
+It enforces one rule:
+
+**Only verified decisions are allowed to pass.**
+
+---
+
+## The Core Principle
+
+No decision is trusted unless it is proven.
+
+A decision is only valid if it is:
+
+- Deterministically derived
+- Fully explainable
+- Strictly validated
+- Cryptographically verifiable
+- Lineage-bound to its origin
+
+If any condition fails:
+
+**The decision does not exist.**
 
 ---
 
 ## Architecture
 
-| Layer | Role |
-|---|---|
-| **Registry** | Versioned, closed set of valid patterns. Ground truth for all verification. |
-| **Detection** | Deterministic pattern matching. Evidence-bound. Fail-closed. |
-| **Explainability** | Auditable artifacts for every detected pattern. Produced before validation. |
-| **Validation** | Cross-layer integrity check. All-or-nothing. |
-| **Integrity** | Hash-chained, tamper-evident record of every verified decision. |
-| **Lineage** | Cryptographically bound approval events — who approved what, when. |
+ZTI transforms raw AI output into a Verified Decision through a deterministic pipeline:
 
-Each layer validates its inputs independently. No layer trusts any other by default.
+```text
+INPUT (AI Output)
+  ↓
+Pattern Registry
+  ↓
+Detection
+  ↓
+Explainability
+  ↓
+Validation
+  ↓
+Integrity
+  ↓
+Lineage
+  ↓
+VERIFIED DECISION
+```
+
+- Pattern Registry defines what is allowed.
+- Detection determines what applies.
+- Explainability produces a complete reasoning trace.
+- Validation enforces correctness.
+- Integrity locks the decision with cryptographic sealing and chaining.
+- Lineage tracks origin and approval history.
 
 ---
 
-## Example
+## The Verified Decision
+
+A Verified Decision is:
+
+- Derived
+- Explained
+- Validated
+- Sealed
+- Traceable
+
+Only Verified Decisions are allowed to cross system boundaries.
+
+Everything else is discarded.
+
+---
+
+## Determinism as a Requirement
+
+ZTI systems are:
+
+- Deterministic
+- Schema-bound
+- Fully reproducible
+
+There is:
+
+- No randomness
+- No implicit behavior
+- No hidden state
+
+If a result cannot be reproduced:
+
+It is invalid.
+
+---
+
+## Fail-Closed Systems
+
+ZTI does not degrade gracefully.
+
+It fails deliberately.
+
+If verification cannot be completed:
+
+**The decision is rejected.**
+
+This prevents uncertainty from entering execution systems.
+
+---
+
+## Cryptographic Decision Chains
+
+Each decision is recorded as a tamper-evident record:
+
+- Decision hash
+- Previous hash
+- Timestamp
+- Version
+
+If any record is altered:
+
+The entire chain becomes invalid.
+
+---
+
+## Simple Example
 
 ```python
 from zti import (
@@ -60,13 +165,9 @@ from zti import (
     explain_patterns,
     create_decision_record,
     validate_chain,
-    create_lineage_entry,
-    validate_lineage,
-    APPROVAL_ACTION_APPROVE,
 )
 from zti.serialization import serialize_explanation_artifact
 
-# 1. Detect patterns in a bundle of interactions
 bundle = InteractionBundle(
     session_id="session-001",
     interactions=(
@@ -76,107 +177,95 @@ bundle = InteractionBundle(
     ),
 )
 
-patterns, evidence_refs, err = detect_patterns(bundle, DEFAULT_REGISTRY)
-assert err is None
+patterns, _, err = detect_patterns(bundle, DEFAULT_REGISTRY)
+assert err is None and patterns
 
-# 2. Generate auditable explanation artifacts
 artifacts, _, err = explain_patterns(tuple(patterns), DEFAULT_REGISTRY)
-assert err is None
+assert err is None and artifacts
 
-# 3. Record each artifact into the integrity chain
-chain = []
-for artifact in artifacts:
-    previous = chain[-1] if chain else None
-    record, err = create_decision_record(
-        record_id=f"{artifact.session_id}:{artifact.pattern_id}",
-        decision_data=serialize_explanation_artifact(artifact),
-        previous_record=previous,
-    )
-    assert err is None
-    chain.append(record)
-
-# 4. Validate the integrity chain
-valid, err = validate_chain(chain)
-assert valid is True
-
-# 5. Record approval lineage
-entry, err = create_lineage_entry(
-    entry_id="approval-001",
-    decision_record_id=chain[0].record_id,
-    approver_id="reviewer@domain.com",
-    approval_action=APPROVAL_ACTION_APPROVE,
-    timestamp_ns=chain[0].timestamp_ns + 1,
+record, err = create_decision_record(
+    record_id="session-001:exploratory",
+    decision_data=serialize_explanation_artifact(artifacts[0]),
+    previous_record=None,
 )
 assert err is None
 
-valid, err = validate_lineage((entry,))
-assert valid is True
+valid, err = validate_chain((record,))
+assert valid is True and err is None
 ```
 
 ---
 
-## Non-Goals
+## What ZTI Is Not
 
-ZTI is a **verification protocol**. It explicitly does not:
+ZTI does not:
 
-- Execute AI outputs
-- Orchestrate agents or pipelines
-- Manage storage, routing, or identity
-- Tune or improve AI models
-- Replace human judgment
+- Improve AI accuracy
+- Replace AI models
+- Execute actions
+- Provide autonomy
+- Act as an agent framework
+
+ZTI is a constraint system.
+
+It enforces trust boundaries on intelligence.
 
 ---
 
-## Installation
+## Where This Matters
 
-```bash
-pip install zti
-```
+ZTI becomes critical anywhere decisions have consequences:
 
-Or from source:
+- Infrastructure automation
+- Security enforcement
+- Financial systems
+- Compliance and audit pipelines
+- Autonomous systems
+
+As systems become more automated, verification becomes non-optional.
+
+---
+
+## Install
+
+Clone the repository and install it in editable mode:
 
 ```bash
 git clone https://github.com/bitscon/zerotrustintelligence
 cd zerotrustintelligence
-pip install -e .
+python3 -m pip install -e .
+```
+
+Run the test suite locally with:
+
+```bash
+python3 -m pytest -q
 ```
 
 ---
 
-## Contents
+## Examples
 
-```
-zti/
-  registry.py          Pattern registry (schema + validation)
-  detection.py         Deterministic pattern detection
-  explainability.py    Auditable explanation artifacts
-  validation.py        Cross-layer integrity validation
-  integrity.py         Hash-chained decision records
-  lineage.py           Approval lineage contract
-  serialization.py     Deterministic canonical serialization
-  errors.py            Error code enumerations
-
-examples/
-  01_basic_chain.py         Decision → record → chain
-  02_validation_failure.py  Fail-closed behavior
-  03_tamper_detection.py    Tamper detection
-  04_lineage_validation.py  Approval lineage recording + validation
-
-whitepaper/
-  zti-whitepaper.md    Full protocol specification
-
-site/
-  index.html           Protocol homepage
-```
+Reference examples are available in [`examples/`](examples/).
 
 ---
 
 ## Whitepaper
 
-The full protocol specification is in [whitepaper/zti-whitepaper.md](whitepaper/zti-whitepaper.md).
+Full protocol specification:
+
+[`whitepaper/zti-whitepaper.md`](whitepaper/zti-whitepaper.md)
+
+---
+
+## Site
+
+Landing page:
+
+[`site/index.html`](site/index.html)
 
 ---
 
 ## License
 
-MIT License — © 2026 Chad McCormack. Implement freely.
+MIT License

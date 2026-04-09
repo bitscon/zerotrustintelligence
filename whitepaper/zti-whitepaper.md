@@ -1,296 +1,307 @@
 # Zero Trust Intelligence (ZTI)
 ## A Protocol for Verifiable AI Systems
 
-**Author:** Chad McCormack  
-**© 2026 Chad McCormack**  
-*(Future ownership may be assigned to a legal entity)*
+Author: Chad McCormack
+© 2026 Chad McCormack
+(Future ownership may be assigned to a legal entity)
 
 *Version 1.0 — April 2026*
 
----
-
 ## Abstract
 
-AI systems are probabilistic. They produce outputs that are plausible, not proven. No amount of calibration, fine-tuning, or prompt engineering eliminates this. The question is not how to make AI more reliable. The question is how to build systems that do not require AI to be trusted.
+Artificial intelligence systems produce outputs that appear intelligent.
+But they are not inherently trustworthy.
 
-Zero Trust Intelligence (ZTI) answers that question with a protocol.
+As AI systems begin to influence infrastructure, finance, operations, and human outcomes,
+a critical gap emerges:
 
-ZTI defines a verification chain that every AI output must pass before it is accepted. The chain is deterministic, fail-closed, and stateless except for the integrity record it produces. It does not modify AI behavior. It does not require access to model internals. It operates entirely on outputs.
+There is no reliable way to verify that an AI decision is correct.
 
-The core principle is absolute:
+Zero Trust Intelligence (ZTI) introduces a deterministic verification layer
+that transforms AI outputs into provable, auditable, and tamper-evident decisions.
 
-> **No AI output is trusted without verification.**
+ZTI does not make AI smarter.
 
----
+It makes AI accountable.
 
-## 1. The Problem
+## 1. The Shift
 
-### 1.1 AI Is Probabilistic
+Artificial intelligence is no longer a tool.
 
-Large language models and other AI systems operate on statistical inference. They produce the most plausible next token, not the correct one. This is not a defect — it is the mechanism. The result is a class of systems that are useful but inherently unverifiable at the inference layer.
+It is becoming a decision engine.
 
-AI outputs can be:
+Systems now generate outputs that:
 
-- Factually incorrect while appearing authoritative
-- Consistent within a session but inconsistent across sessions
-- Correct under normal conditions and wrong under distribution shift
-- Manipulated by adversarial inputs in ways invisible to the model
+- modify infrastructure
+- influence financial outcomes
+- shape human decisions
+- trigger automated execution
 
-### 1.2 Trust Accumulates Without Verification
+Yet these outputs are produced probabilistically.
 
-Current deployment patterns treat AI as a trusted component. Outputs are filtered, ranked, or reviewed by humans — but the underlying assumption is that the AI's output is a reasonable starting point, not an untrusted claim.
+They can be:
 
-This assumption fails in high-stakes domains. Legal. Medical. Financial. Compliance. In these domains, the cost of a confident, plausible, incorrect output is not a minor inconvenience. It is a liability.
+- inconsistent
+- unverifiable
+- manipulated
+- misunderstood
 
-### 1.3 Existing Approaches Are Insufficient
+This creates a systemic risk:
 
-- **Guardrails** filter known-bad outputs. They do not verify correctness.
-- **Human review** is sampling, not verification. It scales poorly and introduces its own errors.
-- **Confidence scores** measure calibration, not truth. A highly confident wrong answer is still wrong.
-- **RAG and grounding** reduce hallucination rates. They do not eliminate them.
+We are beginning to act on decisions we cannot prove are correct.
 
-None of these approaches establish a deterministic, auditable verification record. None of them are fail-closed.
+## 2. The Intelligence Trust Problem
 
----
+AI systems have three structural limitations:
 
-## 2. The Insight
+### Non-determinism
 
-### 2.1 Trust Is the Wrong Model
+The same input may produce different outputs.
 
-Zero trust security rejected perimeter-based trust models. The insight was simple: don't try to make the network trustworthy. Make trust irrelevant by verifying every request.
+### Opaque reasoning
 
-The same insight applies to AI.
+The path from input to output is not fully inspectable.
 
-Don't try to make AI trustworthy. Make AI's trustworthiness irrelevant by verifying every output.
+### No integrity guarantees
 
-### 2.2 Verification Must Be Deterministic
+Outputs can be altered without detection.
 
-A probabilistic verification system is not verification — it is another layer of uncertainty. ZTI requires that all verification steps be deterministic: same input, same registry, same output, every time.
+This leads to a dangerous assumption:
 
-This is the property that makes verification meaningful. A system that might catch tampering is not a tamper-evident system.
+If it looks correct, it must be correct.
 
-### 2.3 Verification Must Be Fail-Closed
+That assumption does not scale.
 
-If the system cannot verify an output, it rejects the output. No partial acceptance. No fallback to unverified outputs. No silent degradation.
+## 3. The Core Principle
 
----
+Zero Trust Intelligence is built on a single constraint:
 
-## 3. Core Principle
+No decision is trusted unless it is proven.
 
-> **No AI output is trusted without verification.**
+A decision is only valid if it is:
 
-This is an architectural constraint, not a guideline. Every component in a ZTI system is designed around this constraint. The constraint does not have exceptions for performance, latency, or confidence.
+- Deterministically derived
+- Fully explainable
+- Strictly validated
+- Cryptographically verifiable
+- Lineage-bound to its origin
 
----
+If any condition fails:
 
-## 4. Architecture
+The decision does not exist.
 
+## 4. A New Layer: The Intelligence Trust Layer
+
+ZTI defines a new architectural layer in modern systems:
+
+The Intelligence Trust Layer
+
+```text
+AI System -> Intelligence Trust Layer -> Execution System
 ```
-Registry → Detection → Explainability → Validation → Integrity → Lineage
+
+This layer does not generate intelligence.
+
+It does not execute actions.
+
+It enforces one rule:
+
+Only verified decisions are allowed to pass.
+
+## 5. The Architecture of Verification
+
+ZTI transforms raw AI output into a Verified Decision through a deterministic pipeline:
+
+```text
+INPUT (AI Output)
+  ↓
+Pattern Registry
+  ↓
+Detection
+  ↓
+Explainability
+  ↓
+Validation
+  ↓
+Integrity
+  ↓
+Lineage
+  ↓
+VERIFIED DECISION
 ```
 
-### 4.1 Registry
+### Pattern Registry
 
-The registry is the ground truth of the verification system. It contains:
+Defines what is allowed.
+Closed, explicit, and immutable during execution.
 
-- A closed, versioned set of valid patterns
-- Detection rules for each pattern
-- Scoring weights for confidence derivation
-- Required conditions that must be satisfied
+### Detection
 
-The registry is immutable at runtime. It is versioned. Every downstream component references the same registry version. Version mismatches are a hard failure.
+Determines what applies.
+No inference. No probability. Only deterministic matching.
 
-### 4.2 Detection
+### Explainability
 
-Detection matches an AI output against the registry. It is:
+Produces a complete reasoning trace.
+Every conclusion must be justified.
 
-- **Deterministic** — same input produces the same detection result
-- **Evidence-bound** — every detection is tied to specific input signals and source references
-- **Fail-closed** — if detection cannot complete, the output is rejected
+### Validation
 
-Confidence is computed from registry scoring weights, not from the AI model. The AI model's internal confidence is not consulted.
+Enforces correctness.
+Ambiguity is treated as failure.
 
-### 4.3 Explainability
+### Integrity
 
-Every detected pattern produces an explanation artifact. The artifact contains:
+Locks the decision.
+Each output is cryptographically sealed and chained.
 
-- The pattern detected
-- The signals that contributed to the detection
-- Evidence references (interaction IDs and source positions)
-- The registry version under which detection occurred
+### Lineage
 
-Explanation artifacts are the audit trail. They are produced before validation and retained regardless of what follows.
+Tracks origin and approval.
+Every decision has a verifiable history.
 
-### 4.4 Validation
+## 6. The Verified Decision
 
-Validation performs cross-layer integrity checks:
+ZTI introduces a new atomic unit:
 
-- Detected patterns exist in the registry
-- Pattern types match registry definitions
-- Evidence references are internally consistent
-- Version alignment holds across all layers
+The Verified Decision
 
-Validation is all-or-nothing. Partial validation is not validation.
+A Verified Decision is:
 
-### 4.5 Integrity
+- Derived
+- Explained
+- Validated
+- Sealed
+- Traceable
 
-The integrity layer records every verified decision into a hash-chained, tamper-evident log.
+Only Verified Decisions are allowed to cross system boundaries.
 
-Each record contains:
+Everything else is discarded.
 
-- A unique decision ID
-- A UTC nanosecond timestamp
-- SHA-256 hash of the decision payload
-- SHA-256 hash of the previous record (GENESIS_HASH for first)
-- A chain hash binding all fields
+## 7. Determinism as a Requirement
 
-The chain enforces:
+ZTI systems are:
 
-- **Strict monotonic timestamps** — no record can be backdated
-- **Hash linkage** — any insertion, deletion, or modification is detectable
-- **Genesis binding** — the chain start is explicitly marked
+- Deterministic
+- Schema-bound
+- Fully reproducible
 
-Any tampering with any record invalidates the entire chain from that point forward.
+There is:
 
-### 4.6 Lineage
+- No randomness
+- No implicit behavior
+- No hidden state
 
-The lineage layer records who approved or rejected each verified decision, when, and in what order.
+If a result cannot be reproduced:
 
-Each lineage entry contains:
+It is invalid.
 
-- A unique entry ID
-- The ID of the decision record being approved
-- The approver's identity
-- The approval action (approve or reject)
-- A UTC nanosecond timestamp
-- A SHA-256 hash binding all fields
+## 8. Fail-Closed Systems
 
-The lineage layer is stateless. It does not chain entries to each other. Instead, each entry is independently tamper-evident: any modification to the entry_id, decision_record_id, approver_id, approval_action, or timestamp is immediately detectable by recomputing the entry_hash.
+ZTI does not degrade gracefully.
 
-Sequences of lineage entries are validated for:
+It fails deliberately.
 
-- **Non-empty input** — an empty approval log is an unverified decision
-- **Field validity** — all required fields present and well-formed
-- **Monotonic timestamps** — approval events cannot be backdated relative to each other
-- **Hash integrity** — each entry's hash is independently recomputable
+If verification cannot be completed:
 
----
+The decision is rejected.
 
-## 5. Design Principles
+This prevents uncertainty from entering execution systems.
 
-### 5.1 Fail Closed
+## 9. Cryptographic Decision Chains
 
-If verification cannot complete, the output is rejected. This applies at every layer. There is no partial success state.
+Each decision is recorded as a tamper-evident record:
 
-### 5.2 No Implicit Trust
+- Decision hash
+- Previous hash
+- Timestamp
+- Version
 
-No component trusts any other component by default. The registry validates its own structure at load time. The detection layer validates the registry before running. The explainability layer validates detected patterns before generating artifacts. The integrity layer validates each record before appending. The lineage layer validates each entry independently.
+These records form a chain.
 
-### 5.3 Determinism
+If any record is altered:
 
-Every operation is deterministic. Sorting is explicit. Hash inputs are field-separated to prevent boundary collisions. Floating point arithmetic is bounded and validated before use.
+The entire chain becomes invalid.
 
-### 5.4 Evidence Binding
+## 9.1 The Bitcoin Analogy
 
-No result exists without evidence. Every detected pattern references the specific inputs that produced it. Every explanation artifact references specific evidence. Every integrity record references the specific payload it covers. Every lineage entry references the specific decision record it approves.
+Bitcoin solved trust in financial transactions without requiring trust in participants.
 
-### 5.5 Versioned, Closed Registry
+ZTI applies the same principle to intelligence:
 
-The registry is closed. Unknown patterns cannot be inferred. Unknown signals are not accepted. The version string is a hard constraint at every layer. Mismatches fail the chain.
+Do not trust the system.
+Verify the outcome.
 
-### 5.6 Stateless Protocol
+ZTI is not a blockchain.
 
-ZTI defines the verification rules. It does not define where or when they are applied. The integrity chain and lineage entries are the only stateful artifacts, and their statefulness is explicit and append-only. Callers manage storage.
+It is a verification model.
 
----
+## 10. What ZTI Is Not
 
-## 6. The Timestamp Analogy
+ZTI does not:
 
-In 1991, Haber and Stornetta published a scheme for timestamping digital documents so that it would be impossible to backdate or forward-date them. The insight: link each document's hash to the previous document's hash and publish the chain. Tampering with any document invalidates all subsequent entries.
+- Improve AI accuracy
+- Replace AI models
+- Execute actions
+- Provide autonomy
+- Act as an agent framework
 
-ZTI's integrity layer applies the same principle to AI decisions.
+ZTI is a constraint system.
 
-Each decision is hashed. Each hash is linked to the previous. The chain is published (to any store — file, database, or log). Any attempt to modify, insert, or delete a decision is detectable by recomputing the chain.
+It enforces trust boundaries on intelligence.
 
-The analogy is structural, not cryptographic in the blockchain sense. ZTI does not require distributed consensus. It requires only that the chain be recomputable from its inputs — which it always is, because it is deterministic.
+## 11. Where This Matters
 
----
+ZTI becomes critical anywhere decisions have consequences:
 
-## 7. Use Cases
+- Infrastructure automation
+- Security enforcement
+- Financial systems
+- Compliance and audit pipelines
+- Autonomous systems
 
-### 7.1 Enterprise AI Governance
+As systems become more automated, verification becomes non-optional.
 
-Organizations deploying AI in regulated environments need deterministic audit trails. ZTI provides a complete record of every AI output that was verified, the patterns detected, the signals that triggered detection, the registry version under which verification occurred, and the approval events that followed.
+## 12. The Strategic Shift
 
-### 7.2 GRC and Compliance
+ZTI represents a fundamental transition:
 
-Governance, Risk, and Compliance frameworks require that AI decisions be explainable and auditable. ZTI's explanation artifacts satisfy these requirements structurally — they are produced by the protocol, not retrofitted after the fact. The lineage layer adds a tamper-evident record of who reviewed each decision and what action they took.
+From: Trust the system
+To:   Verify the decision
 
-### 7.3 Agentic Systems
+This shift mirrors earlier transformations:
 
-AI agents that take autonomous actions are high-risk without verification. ZTI can be applied at the action boundary: any action proposed by an agent passes through the verification chain before execution. Agents that produce unverifiable output are stopped. Approval lineage provides a traceable record of human oversight.
+From implicit trust → Zero Trust Security
+From manual records → Cryptographic ledgers
 
-### 7.4 Multi-Model Pipelines
+ZTI extends this progression to intelligence itself.
 
-In systems where multiple AI models interact, ZTI provides a verification layer between models. The output of one model is not passed to another until it has been verified. Trust does not accumulate across the pipeline.
+## 13. What Comes Next
 
-### 7.5 Adversarial Detection
+ZTI enables:
 
-The integrity chain provides a tamper-evident record of all decisions. Any attempt to retroactively modify, inject, or delete a decision is detectable by chain validation. The lineage layer extends this to approval events: any attempt to forge or backdate an approval is detectable by hash recomputation.
+- Standardized decision verification
+- Independent auditability
+- Cross-system trust models
+- Composable verification pipelines
 
----
+Future directions include:
 
-## 8. What ZTI Is Not
+- External timestamp anchoring
+- Interoperable verification standards
+- Formal verification models
 
-ZTI is not:
+## 14. Conclusion
 
-- A model training framework
-- A prompt engineering system
-- A guardrail or content filter
-- An orchestration engine
-- A storage system
-- An identity or authentication protocol
+AI systems are rapidly becoming decision systems.
 
-ZTI is a **verification protocol**. It defines how to verify AI outputs. It does not define what to do with the outputs after verification, how to store the integrity chain, or how to route decisions within a larger system.
+But decisions without verification introduce systemic risk.
 
----
+Zero Trust Intelligence provides a deterministic framework
+for transforming AI outputs into provable, trustworthy decisions.
 
-## 9. Future Direction
+The future of AI is not defined by how intelligent it is.
 
-### 9.1 Domain Pattern Libraries
+It is defined by whether it can be trusted.
 
-Pattern registries can be domain-specific. Legal AI systems need legal patterns. Financial AI systems need financial patterns. ZTI's versioned registry model supports domain-specific libraries with shared verification infrastructure.
-
-### 9.2 Registry Governance
-
-As ZTI matures, formal governance models for registry updates become necessary. Who can update the registry? Under what conditions? With what audit trail? These are open questions the protocol does not yet answer.
-
-### 9.3 Real-Time Verification
-
-Current ZTI implementations operate post-inference. Future work may explore verification closer to inference time — applying registry checks before output leaves the model boundary.
-
-### 9.4 Federated Integrity
-
-In distributed systems, the integrity chain can be federated — multiple independent verification nodes that must agree before a decision is accepted. This extends ZTI's fail-closed model to the verification infrastructure itself.
-
-### 9.5 Lineage Resolution
-
-Future work will define deterministic ordering rules for approval lineage in systems where multiple reviewers act concurrently, and admissibility rules for partial or conflicting approval sequences.
-
----
-
-## 10. Conclusion
-
-AI is not going to become trustworthy through calibration alone. The probabilistic nature of the technology means that no amount of fine-tuning eliminates the possibility of error. The correct response is not to improve the AI until it is trustworthy. The correct response is to build systems that verify AI outputs deterministically, record them immutably, track approval lineage cryptographically, and fail closed when verification cannot be completed.
-
-ZTI is that system.
-
-The protocol is minimal. The implementation is complete. The principle is absolute.
-
-Don't trust AI. Verify it.
-
----
-
-*Zero Trust Intelligence (ZTI)*  
-*Author: Chad McCormack — © 2026 Chad McCormack*  
-*Released under MIT License. Implement freely.*
+And trust must be proven.
