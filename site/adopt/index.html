@@ -32,6 +32,8 @@
     .ad-hero { padding: 6.5rem 0 5.5rem; border-top: 0; }
     .ad-hero h1 { margin: 0 0 1rem; font-size: clamp(2rem, 5vw, 4rem); font-weight: 300; line-height: 1.12; letter-spacing: -0.01em; }
     .ad-hero p { margin: 0; max-width: 56rem; color: var(--muted); line-height: 1.75; font-size: 1.02rem; }
+    .ad-frame { max-width: 56rem; }
+    .ad-frame p + p { margin-top: 0.65rem; }
 
     .ad-scenario { padding: 5rem 0; }
     .ad-scenario-alt { background: var(--surface2); }
@@ -98,43 +100,42 @@
     <div class="ad-shell">
       <p class="ad-tag">/adopt · Applied Scenarios</p>
       <h1>Where ZTI applies in enterprise operations.</h1>
-      <p>
-        This page maps the execution boundary to real operating systems where AI-generated proposals can trigger
-        infrastructure, security, financial, and service-impacting actions. The objective is straightforward:
-        define where unverified proposals are currently crossing into execution, then apply deterministic verification
-        before those actions are allowed to run.
-      </p>
+      <div class="ad-frame">
+        <p>AI systems are already generating decisions that reach execution systems.</p>
+        <p>Most organizations do not have a defined boundary between proposal and execution.</p>
+        <p>This page shows where that boundary failure appears first in technical systems, then in operational controls, financial workflows, and autonomous execution paths.</p>
+      </div>
     </div>
   </section>
 
   <section class="ad-scenario">
     <div class="ad-shell">
       <p class="ad-tag">Scenario 1</p>
-      <h2>Infrastructure Change Governance</h2>
+      <h2>Infrastructure and CI/CD Change Governance</h2>
       <p class="ad-scenario-intro">
-        AI-assisted infrastructure proposals are increasingly entering CI/CD pipelines. This is often the first
-        high-impact pathway where an execution boundary is required.
+        AI-assisted infrastructure proposals and release changes are already entering deployment systems. This is
+        typically the first execution surface where a verification boundary is needed.
       </p>
       <div class="ad-pattern">
         <article class="ad-block">
           <h3>Context</h3>
           <p>
-            Platform teams use AI to draft Terraform plans, deployment parameters, and environment updates across
-            production regions and shared services.
+            Platform teams use AI to draft Terraform plans, deployment parameters, pipeline updates, and environment
+            changes across production systems.
           </p>
         </article>
         <article class="ad-block">
           <h3>Risk</h3>
           <p>
-            Misclassified or policy-incompatible changes can execute at pipeline speed, creating configuration drift,
-            expanded blast radius, and delayed incident detection.
+            Misclassified or policy-incompatible changes can move at pipeline speed, creating configuration drift,
+            unstable releases, expanded blast radius, and delayed incident detection.
           </p>
         </article>
         <article class="ad-block">
           <h3>ZTI Enforcement</h3>
           <p>
-            ZTI verifies every proposal against declared infrastructure constraints before apply. Only sealed,
-            policy-valid artifacts are permitted to cross into execution systems.
+            ZTI verifies infrastructure and release proposals against declared constraints before apply or rollout.
+            Only sealed, policy-valid artifacts are permitted to cross into execution systems.
           </p>
         </article>
       </div>
@@ -144,24 +145,24 @@
   <section class="ad-scenario ad-scenario-alt">
     <div class="ad-shell">
       <p class="ad-tag">Scenario 2</p>
-      <h2>Identity and Access Operations</h2>
+      <h2>Security Enforcement Operations</h2>
       <p class="ad-scenario-intro">
-        AI-generated access recommendations can improve response time, but access operations are a direct control
-        surface and require deterministic verification.
+        AI-generated security actions can improve response time, but security controls are direct enforcement surfaces
+        and require deterministic verification before execution.
       </p>
       <div class="ad-pattern">
         <article class="ad-block">
           <h3>Context</h3>
           <p>
-            Security and operations workflows use AI proposals for privilege changes, account actions, entitlement
-            reviews, and exception handling.
+            Security and operations workflows use AI proposals for privilege changes, account actions, policy
+            exceptions, revocations, and containment decisions.
           </p>
         </article>
         <article class="ad-block">
           <h3>Risk</h3>
           <p>
-            Over-broad grants, incorrect revocations, or policy bypasses can create immediate availability and
-            security incidents with audit exposure.
+            Incorrect grants, revocations, or enforcement actions can create immediate availability and security
+            incidents, while policy bypasses introduce direct audit exposure.
           </p>
         </article>
         <article class="ad-block">
@@ -178,31 +179,31 @@
   <section class="ad-scenario">
     <div class="ad-shell">
       <p class="ad-tag">Scenario 3</p>
-      <h2>CI/CD and Release Control</h2>
+      <h2>Financial System Actions</h2>
       <p class="ad-scenario-intro">
-        AI is increasingly upstream of release decisions through generated pipeline logic and deployment actions.
-        Release integrity requires an explicit decision gate.
+        AI-generated recommendations are increasingly appearing in workflows that affect spend, approvals, and
+        operational financial controls. These are business actions, not just technical outputs.
       </p>
       <div class="ad-pattern">
         <article class="ad-block">
           <h3>Context</h3>
           <p>
-            Engineering organizations use AI-assisted generation for pipeline steps, rollout parameters, remediation
-            actions, and production runbook execution.
+            Organizations use AI proposals in approval flows tied to budgets, vendor operations, service exceptions,
+            and operating decisions with financial consequences.
           </p>
         </article>
         <article class="ad-block">
           <h3>Risk</h3>
           <p>
-            Unverified release actions can bypass change policy, trigger unstable deployments, and complicate
-            root-cause analysis when incidents occur.
+            Inaccurate or non-compliant actions can create direct cost, regulatory exposure, and weak executive
+            accountability when decision lineage cannot be reconstructed.
           </p>
         </article>
         <article class="ad-block">
           <h3>ZTI Enforcement</h3>
           <p>
-            ZTI validates release proposals against deployment policy and environment constraints, then forwards only
-            verified artifacts to pipeline execution controls.
+            ZTI requires each action to satisfy declared approval and policy constraints, then seals decision lineage
+            so finance, operations, and audit teams can verify exactly what executed.
           </p>
         </article>
       </div>
@@ -212,31 +213,31 @@
   <section class="ad-scenario ad-scenario-alt">
     <div class="ad-shell">
       <p class="ad-tag">Scenario 4</p>
-      <h2>Financial and Operational Approval Workflows</h2>
+      <h2>Autonomous Execution Pathways</h2>
       <p class="ad-scenario-intro">
-        AI-generated operational actions can influence financial outcomes. Executive oversight requires transparent,
-        reproducible decision evidence.
+        The highest-risk condition appears when AI proposals are allowed to chain across systems with minimal human
+        intervention. At that point, the boundary problem becomes systemic.
       </p>
       <div class="ad-pattern">
         <article class="ad-block">
           <h3>Context</h3>
           <p>
-            AI systems propose budget actions, vendor operations, service-scale decisions, and workflow exceptions in
-            enterprise operating environments.
+            Agent runtimes and orchestration systems can generate and dispatch actions across infrastructure,
+            identity, data, and service operations in a single workflow.
           </p>
         </article>
         <article class="ad-block">
           <h3>Risk</h3>
           <p>
-            Inaccurate or non-compliant actions can create direct cost, regulatory exposure, and uncertain executive
-            accountability when decision lineage cannot be reconstructed.
+            Local control failures become system-level incidents when unverified actions propagate across multiple
+            execution surfaces. Accountability becomes difficult to isolate after the fact.
           </p>
         </article>
         <article class="ad-block">
           <h3>ZTI Enforcement</h3>
           <p>
-            ZTI requires each action to satisfy declared approval and policy constraints, then seals decision lineage
-            so finance, operations, and audit teams can verify exactly what executed.
+            ZTI applies the same deterministic verification boundary to each actionable handoff, ensuring that only
+            verified decisions advance from proposal into chained execution.
           </p>
         </article>
       </div>
