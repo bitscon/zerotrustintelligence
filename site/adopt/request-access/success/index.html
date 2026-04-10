@@ -54,55 +54,65 @@
   if (!data) {
     container.innerHTML = "<p>No decision record found.</p>";
   } else {
-    const d = JSON.parse(data);
-    const labelMap = {
-      validation: "Field Validation",
-      scoring: "Signal Evaluation"
-    };
+    let d;
+    try {
+      d = JSON.parse(data);
+    } catch (err) {
+      container.innerHTML = "<p>No decision record found.</p>";
+      d = null;
+    }
+    if (!d) {
+      container.innerHTML = "<p>No decision record found.</p>";
+    } else {
+      const labelMap = {
+        validation: "Field Validation",
+        scoring: "Signal Evaluation"
+      };
 
-    const checks = (d.checks || []).map(c => {
-      let color = "#888";
-      if (c.result === "PASS") color = "#4caf50";
-      if (c.result === "PARTIAL") color = "#f5a623";
-      if (c.result === "FAIL") color = "#ff4d4d";
+      const checks = (d.checks || []).map(c => {
+        let color = "#888";
+        if (c.result === "PASS") color = "#4caf50";
+        if (c.result === "PARTIAL") color = "#f5a623";
+        if (c.result === "FAIL") color = "#ff4d4d";
 
-      return `
-      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-        <span>${labelMap[c.name] || c.name}</span>
-        <span style="color:${color}">${c.result}</span>
-      </div>
-    `;
-    }).join("");
+        return `
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span>${labelMap[c.name] || c.name}</span>
+          <span style="color:${color}">${c.result}</span>
+        </div>
+      `;
+      }).join("");
 
-    container.innerHTML = `
-    <div style="margin-top:20px;padding:20px;border:1px solid #333;background:#111;">
-      <div style="margin-top:20px;padding-top:10px;border-top:1px solid #1f1f1f;">
-        <div><strong>Request ID:</strong> ${d.request_id}</div>
-        <div><strong>Timestamp:</strong> ${d.timestamp}</div>
-        <div><strong>Tier:</strong> ${d.tier}</div>
-        <div><strong>Outcome:</strong> ${d.outcome}</div>
-        <p style="margin-top:8px;color:#9a9a9a;font-size:14px;">
-          This request has been accepted into the evaluation queue.
-          Final access decisions are based on system alignment and use-case requirements.
+      container.innerHTML = `
+      <div style="margin-top:20px;padding:20px;border:1px solid #333;background:#111;">
+        <div style="margin-top:20px;padding-top:10px;border-top:1px solid #1f1f1f;">
+          <div><strong>Request ID:</strong> ${d.request_id}</div>
+          <div><strong>Timestamp:</strong> ${d.timestamp}</div>
+          <div><strong>Tier:</strong> ${d.tier}</div>
+          <div><strong>Outcome:</strong> ${d.outcome}</div>
+          <p style="margin-top:8px;color:#9a9a9a;font-size:14px;">
+            This request has been accepted into the evaluation queue.
+            Final access decisions are based on system alignment and use-case requirements.
+          </p>
+        </div>
+
+        <div style="margin-top:20px;padding-top:10px;border-top:1px solid #1f1f1f;">
+          <strong>Verification Pipeline</strong>
+          ${checks}
+        </div>
+
+        <div style="margin-top:20px;padding-top:10px;border-top:1px solid #1f1f1f;font-size:12px;color:#aaa;">
+          <strong>Integrity Seal</strong><br/>
+          sha256:${d.integrity_hash}
+        </div>
+
+        <p style="margin-top:24px;font-size:13px;color:#777;">
+          This is ZTI processing your request in real time.
+          The same verification layer governs production AI execution.
         </p>
       </div>
-
-      <div style="margin-top:20px;padding-top:10px;border-top:1px solid #1f1f1f;">
-        <strong>Verification Pipeline</strong>
-        ${checks}
-      </div>
-
-      <div style="margin-top:20px;padding-top:10px;border-top:1px solid #1f1f1f;font-size:12px;color:#aaa;">
-        <strong>Integrity Seal</strong><br/>
-        sha256:${d.integrity_hash}
-      </div>
-
-      <p style="margin-top:24px;font-size:13px;color:#777;">
-        This is ZTI processing your request in real time.
-        The same verification layer governs production AI execution.
-      </p>
-    </div>
-  `;
+    `;
+    }
   }
   </script>
 </body>
