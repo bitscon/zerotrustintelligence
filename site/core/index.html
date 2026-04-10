@@ -54,6 +54,7 @@
     .core-hero { border-top: 1px solid var(--border); padding: 4.5rem 0 3rem; }
     .core-hero h1 { margin: 0.55rem 0 0.9rem; font-size: clamp(2rem, 4vw, 3rem); font-weight: 350; line-height: 1.16; letter-spacing: -0.01em; }
     .core-hero p { margin: 0; max-width: 48rem; color: var(--muted); line-height: 1.72; }
+    .core-positioning p + p { margin-top: 0.6rem; }
 
     .core-section {
       border-top: 1px solid var(--border);
@@ -200,10 +201,11 @@
     <div class="core-shell">
       <p class="core-tag">/core · Platform Layer</p>
       <h1>ZTI Core is the deployable enforcement platform for the ZTI protocol.</h1>
-      <p>
-        ZTI Core is implemented at the execution boundary between AI-generated proposals and production systems.
-        It enforces deterministic verification policy and permits only verified decision artifacts to execute.
-      </p>
+      <div class="core-positioning">
+        <p>ZTI Core is the execution control layer for AI-generated decisions.</p>
+        <p>It enforces a deterministic verification boundary between AI output and system execution.</p>
+        <p>This is where the ZTI protocol becomes operational.</p>
+      </div>
     </div>
   </section>
 
