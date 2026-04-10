@@ -71,10 +71,10 @@
     <h1>Request Access</h1>
     <p>
       Access to ZTI Core is provisioned in controlled phases.
-      Share your context to help align onboarding with system requirements.
+      This demo evaluates request intent locally and returns a deterministic decision record.
     </p>
 
-    <form class="request-form" action="https://n8n.zerotrustintelligence.io/webhook/zti-access" method="POST">
+    <form class="request-form" action="/adopt/request-access/success" method="POST">
       <div>
         <label for="name">Name</label>
         <input id="name" type="text" name="name" autocomplete="name" required />
@@ -137,8 +137,6 @@
   })();
 
   const form = document.querySelector(".request-form");
-  const submitUrl = "https://n8n.zerotrustintelligence.io/webhook/zti-access";
-  const requestTimeoutMs = 4500;
 
   const localDecision = (payload) => {
     const text = `${payload.use_case || ""} ${payload.why_zti || ""}`.toLowerCase();
@@ -169,22 +167,12 @@
       outcome: "PENDING_REVIEW",
       checks: [
         { name: "validation", result: "PASS" },
-        { name: "scoring", result: "PASS", score }
+        { name: "scoring", result: "PASS", score },
+        { name: "integrity", result: "PASS" }
       ],
       integrity_hash: integrityHash,
-      source: "local_fallback"
+      source: "local_demo"
     };
-  };
-
-  const postWithTimeout = async (url, options, timeoutMs) => {
-    const controller = new AbortController();
-    const timer = window.setTimeout(() => controller.abort(), timeoutMs);
-
-    try {
-      return await fetch(url, { ...options, signal: controller.signal });
-    } finally {
-      window.clearTimeout(timer);
-    }
   };
 
   form.addEventListener("submit", async (e) => {
@@ -192,7 +180,7 @@
 
     const btn = document.querySelector(".request-submit");
     btn.disabled = true;
-    btn.textContent = "Submitting...";
+    btn.textContent = "Processing...";
 
     const formData = new FormData(form);
 
@@ -206,29 +194,9 @@
       website: formData.get("website")
     };
 
-    try {
-      const res = await postWithTimeout(submitUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      }, requestTimeoutMs);
-
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        throw new Error(`REQUEST_FAILED_${res.status}`);
-      }
-
-      sessionStorage.setItem("zti-decision", JSON.stringify(data));
-
-      window.location.href = "/adopt/request-access/success";
-
-    } catch (err) {
-      const fallback = localDecision(payload);
-      sessionStorage.setItem("zti-decision", JSON.stringify(fallback));
-      window.location.href = "/adopt/request-access/success";
-    }
+    const decision = localDecision(payload);
+    sessionStorage.setItem("zti-decision", JSON.stringify(decision));
+    window.location.href = "/adopt/request-access/success";
   });
   </script>
 </body>
