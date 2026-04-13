@@ -278,9 +278,21 @@ Full protocol specification:
 
 ## Site
 
-Landing page:
+Website source lives in:
 
-[`site/index.html`](site/index.html)
+[`dev/site/_src/`](dev/site/_src/)
+
+Build the deployable site artifact with:
+
+```bash
+python3 dev/site/build.py --out dev/site/_dist
+```
+
+Verify it with:
+
+```bash
+./ops/verify.sh
+```
 
 ---
 

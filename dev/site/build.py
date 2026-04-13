@@ -21,45 +21,33 @@ SRC_ROOT = SITE_ROOT / '_src'
 CONFIG_PATH = SRC_ROOT / 'config' / 'site.json'
 TOKEN_PATTERN = re.compile(r'{{([A-Z0-9_]+)}}')
 
-PAGE_PATHS = {
-    'protocol': 'index.html',
-    'adopt': 'adopt/index.html',
-    'core': 'core/index.html',
-    'adopt_demo': 'adopt/demo/index.html',
-    'request_access': 'adopt/request-access/index.html',
-    'request_success': 'adopt/request-access/success/index.html',
-}
+REQUIRED_ARTIFACT_FILES = (
+    '.htaccess',
+    'index.html',
+    'adopt/index.html',
+    'adopt/demo/index.html',
+    'adopt/request-access/index.html',
+    'adopt/request-access/success/index.html',
+    'core/index.html',
+    'assets/site.css',
+    'assets/site.js',
+    'assets/demo-output.txt',
+)
 
 
 def _load_config() -> dict[str, object]:
     return json.loads(CONFIG_PATH.read_text(encoding='utf-8'))
 
 
-def _target_base_path(target: str) -> str:
-    if target == 'dev':
-        return '/dev/site'
-    if target == 'prod':
-        return ''
-    raise ValueError(f'Unsupported target: {target}')
-
-
-def _join(base: str, suffix: str) -> str:
-    if not base:
-        return suffix
-    if suffix == '/':
-        return f'{base}/'
-    return f'{base}{suffix}'
-
-
-def _route_map(base_path: str) -> dict[str, str]:
+def _route_map() -> dict[str, str]:
     return {
-        'protocol': _join(base_path, '/'),
-        'adopt': _join(base_path, '/adopt/'),
-        'core': _join(base_path, '/core/'),
-        'adopt_demo': _join(base_path, '/adopt/demo/'),
-        'request_access': _join(base_path, '/adopt/request-access/'),
-        'request_success': _join(base_path, '/adopt/request-access/success/'),
-        'assets': _join(base_path, '/assets'),
+        'protocol': '/',
+        'adopt': '/adopt/',
+        'core': '/core/',
+        'adopt_demo': '/adopt/demo/',
+        'request_access': '/adopt/request-access/',
+        'request_success': '/adopt/request-access/success/',
+        'assets': '/assets',
     }
 
 
@@ -90,14 +78,12 @@ def _nav_items(config: dict[str, object], routes: dict[str, str]) -> str:
     return '\n'.join(items)
 
 
-def _context_for(target: str) -> dict[str, str]:
+def _context() -> dict[str, str]:
     config = _load_config()
-    base_path = _target_base_path(target)
-    routes = _route_map(base_path)
+    routes = _route_map()
     sidebar_template = (SRC_ROOT / 'partials' / 'sidebar.html').read_text(encoding='utf-8')
     sidebar = _render_tokens(sidebar_template, {'NAV_ITEMS': _nav_items(config, routes)})
     return {
-        'BASE_PATH': base_path,
         'GOOGLE_FONTS_URL': str(config['fonts_url']),
         'SIDEBAR': sidebar,
         'ASSETS_URL': routes['assets'],
@@ -148,16 +134,17 @@ def _render_pages(output_dir: Path, context: dict[str, str]) -> None:
 
 def _stage_transcript(output_dir: Path, project_root: Path) -> Path:
     transcript_source = export_terminal_output(project_root)
+    transcript_text = transcript_source.read_text(encoding='utf-8')
     destination = output_dir / 'assets' / 'demo-output.txt'
     destination.parent.mkdir(parents=True, exist_ok=True)
-    destination.write_text(transcript_source.read_text(encoding='utf-8'), encoding='utf-8')
+    destination.write_text(transcript_text, encoding='utf-8')
     return destination
 
 
-def build_site(target: str, output_dir: Path, project_root: Path | None = None) -> Path:
+def build_site(output_dir: Path, project_root: Path | None = None) -> Path:
     project_root = project_root or PROJECT_ROOT
     output_dir = output_dir.resolve()
-    context = _context_for(target)
+    context = _context()
     _ensure_clean_output(output_dir)
     _copy_static(output_dir)
     _render_assets(output_dir, context)
@@ -174,35 +161,39 @@ def _digest_directory(directory: Path) -> dict[str, str]:
     return digests
 
 
-def _assert_prod_paths(prod_dir: Path) -> None:
-    for path in prod_dir.rglob('*'):
+def _assert_root_relative_paths(output_dir: Path) -> None:
+    for path in output_dir.rglob('*'):
         if not path.is_file() or path.suffix not in {'.html', '.css', '.js', '.txt'}:
             continue
         contents = path.read_text(encoding='utf-8')
-        if '/dev/site/' in contents or '/dev/site<' in contents or '/dev/site"' in contents or '/dev/site\'' in contents:
-            raise AssertionError(f'Prod output leaked /dev/site path in {path}')
+        if '/dev/site/' in contents or '/dev/site<' in contents or '/dev/site"' in contents or "/dev/site'" in contents:
+            raise AssertionError(f'Artifact leaked /dev/site path in {path}')
+        if 'localhost' in contents or '127.0.0.1' in contents or 'barn.workshop.home' in contents:
+            raise AssertionError(f'Artifact leaked local-only host reference in {path}')
+
+
+def _assert_required_files(output_dir: Path) -> None:
+    for rel_path in REQUIRED_ARTIFACT_FILES:
+        if not (output_dir / rel_path).exists():
+            raise AssertionError(f'Missing required artifact file: {rel_path}')
 
 
 def check_build(project_root: Path | None = None) -> None:
     project_root = project_root or PROJECT_ROOT
     with tempfile.TemporaryDirectory() as tmp:
         tmp_root = Path(tmp)
-        dev_one = build_site('dev', tmp_root / 'dev-one', project_root)
-        dev_two = build_site('dev', tmp_root / 'dev-two', project_root)
-        prod_one = build_site('prod', tmp_root / 'prod-one', project_root)
-        prod_two = build_site('prod', tmp_root / 'prod-two', project_root)
+        artifact_one = build_site(tmp_root / 'artifact-one', project_root)
+        artifact_two = build_site(tmp_root / 'artifact-two', project_root)
 
-        if _digest_directory(dev_one) != _digest_directory(dev_two):
-            raise AssertionError('Dev preview output is not deterministic')
-        if _digest_directory(prod_one) != _digest_directory(prod_two):
-            raise AssertionError('Prod artifact output is not deterministic')
+        if _digest_directory(artifact_one) != _digest_directory(artifact_two):
+            raise AssertionError('Site artifact output is not deterministic')
 
-        _assert_prod_paths(prod_one)
+        _assert_root_relative_paths(artifact_one)
+        _assert_required_files(artifact_one)
 
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description='Build the ZTI website from a single source tree.')
-    parser.add_argument('--target', choices=['dev', 'prod'])
     parser.add_argument('--out', type=Path)
     parser.add_argument('--check', action='store_true')
     return parser
@@ -213,9 +204,9 @@ def main(argv: Iterable[str] | None = None) -> int:
     if args.check:
         check_build()
         return 0
-    if not args.target or not args.out:
-        raise SystemExit('--target and --out are required unless --check is used')
-    build_site(args.target, args.out)
+    if not args.out:
+        raise SystemExit('--out is required unless --check is used')
+    build_site(args.out)
     return 0
 
 

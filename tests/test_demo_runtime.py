@@ -87,7 +87,7 @@ class DemoRuntimeTests(unittest.TestCase):
         script = (demo_dir / "script.md").read_text(encoding="utf-8")
         recording = (demo_dir / "recording-script.md").read_text(encoding="utf-8")
         terminal = (demo_dir / "terminal-output.md").read_text(encoding="utf-8")
-        exported_terminal = (project_root / "dev" / "site" / "_generated" / "demo-output.txt").read_text(encoding="utf-8")
+        exported_terminal = (project_root / "dev" / "site" / "_dist" / "assets" / "demo-output.txt").read_text(encoding="utf-8")
 
         self.assertIn("Terminal output is the only source of truth.", script)
         self.assertIn("Narration is part of the acceptance contract.", recording)
@@ -95,13 +95,13 @@ class DemoRuntimeTests(unittest.TestCase):
         self.assertIn("WITHOUT ZTI: PASSED", terminal)
         self.assertEqual(exported_terminal, build_terminal_output_text())
 
-    def test_export_terminal_output_writes_generated_site_asset(self) -> None:
+    def test_export_terminal_output_writes_dist_site_asset(self) -> None:
         project_root = Path(self._tmpdir.name) / "project"
         output_path = export_terminal_output(project_root)
 
         self.assertEqual(
             output_path,
-            project_root / "dev" / "site" / "_generated" / "demo-output.txt",
+            project_root / "dev" / "site" / "_dist" / "assets" / "demo-output.txt",
         )
         self.assertTrue(output_path.exists())
         self.assertEqual(output_path.read_text(encoding="utf-8"), build_terminal_output_text())

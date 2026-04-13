@@ -2,7 +2,7 @@
 
 ## Website Source of Truth
 
-The website uses a single-source build workflow.
+The website uses a barn-first, single-artifact workflow.
 
 All agents MUST follow these rules:
 
@@ -14,22 +14,27 @@ All agents MUST follow these rules:
 
    `/dev/site/build.py`
 
-3. Generated website outputs are NEVER hand-authored:
-   - `/dev/site/_preview/`
-   - `/dev/site/_dist_prod/`
-   - `/dev/site/_generated/`
+3. The only generated website artifact is:
+
+   `/dev/site/_dist/`
+
+   It is NEVER hand-authored.
 
 4. The legacy production render tree at:
 
    `/site/`
 
-   is deprecated and MUST NOT be edited directly.
+   is removed from the workflow and MUST NOT be recreated or edited.
 
-5. CI is the authority for production website artifacts.
+5. Barn is the authority for build, verify, and deploy.
 
-6. Production deployment is artifact-based and full-replace only.
+6. CI is validation-only. It MUST NOT deploy the website.
 
-7. Any emergency hotfix made outside `/dev/site/_src/` MUST be backported into source immediately or the repo is out of policy.
+7. Production deployment is artifact-based and full-replace only.
+
+8. Plesk is serve-only and MUST NOT be edited manually.
+
+9. Any emergency hotfix made outside `/dev/site/_src/` MUST be backported into source immediately or the repo is out of policy.
 
 ## Demo Transcript Source of Truth
 
@@ -39,9 +44,9 @@ The terminal output is the only source of truth for the demo.
 2. Manual edits to generated transcript artifacts are forbidden.
 3. The canonical generated transcript path is:
 
-   `/dev/site/_generated/demo-output.txt`
+   `/dev/site/_dist/assets/demo-output.txt`
 
-4. The builder stages that transcript into preview and production artifacts.
+4. `resources/demo/terminal-output.md` and the site transcript asset MUST come from the same runtime export path.
 
 ## Agent Working Directory Requirement
 
@@ -73,6 +78,7 @@ For website authoring changes, the agent MUST confirm that all authored website 
 
 Allowed supporting files outside `_src/` are limited to repo-level enforcement files such as:
 - `/dev/site/build.py`
+- `/ops/*`
 - `AGENTS.md`
 - `.github/workflows/*`
 - `.gitignore`
@@ -88,7 +94,7 @@ Example:
 
 ### Step 4 — Failure Behavior
 
-If a requested website change targets legacy render output or production render trees, the agent MUST:
+If a requested website change targets generated output, legacy render trees, or production hosts directly, the agent MUST:
 
 - stop immediately
 - not perform the modification
@@ -100,5 +106,6 @@ If a requested website change targets legacy render output or production render 
 After completing changes, the agent MUST confirm:
 
 - website authoring changes were applied only in `/dev/site/_src/`
-- any outside changes were limited to required build/governance/runtime enforcement files
+- any outside changes were limited to required build, ops, governance, runtime, or test enforcement files
 - no direct edits were made to `/site/`
+- no direct edits were made to Plesk-hosted production files

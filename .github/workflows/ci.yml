@@ -70,14 +70,16 @@ jobs:
               status = parts[0]
               for path in parts[1:]:
                   if path.startswith("site/"):
+                      if status == "D":
+                          continue
                       bad.append(path)
-                      continue
-                  if status == "D" and path.startswith("dev/site/") and not path.startswith("dev/site/_src/") and path != "dev/site/build.py":
                       continue
                   if path.startswith("dev/site/") and not path.startswith("dev/site/_src/") and path != "dev/site/build.py":
+                      if status == "D":
+                          continue
                       bad.append(path)
           if bad:
-              print("Forbidden legacy website path changes detected:")
+              print("Forbidden generated or legacy website path changes detected:")
               for path in bad:
                   print(path)
               raise SystemExit(1)
