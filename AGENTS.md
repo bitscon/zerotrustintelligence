@@ -1,5 +1,24 @@
 # AGENTS
 
+## System Identity and Boundary
+
+zerotrustintelligence is a ZTI-side project. It is not a Billy Workspace project.
+The boundary between this repo and Billy Workspace is governed by:
+- `../BOUNDARY.md` (workspace root) — canonical separation contract
+- `../docs/handoff/` — the only allowed cross-system interaction surface
+
+This repo must be operable without Billy Workspace being present.
+
+**Prohibited (boundary rules):**
+- Importing or referencing Billy-internal documents (AGENT_OS.md, ACTIVE_RUNTIME.md, docs/changes/)
+- Adding dependencies on Billy runtime state or governance logic
+- Creating symlinks to Billy directories
+- Any CI/CD configuration that requires Billy Workspace to be present
+
+If any of the above are detected: report `BOUNDARY_VIOLATION` to operator before proceeding.
+
+---
+
 ## Mandatory Context
 
 All agents MUST read:
