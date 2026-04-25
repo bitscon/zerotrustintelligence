@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bitscon.github.io/zerotrustintelligence/schemas/audit_report.json",
+  "$id": "https://bitscon.github.io/zti/schemas/audit_report.json",
   "title": "AuditReport",
   "type": "object",
   "required": [

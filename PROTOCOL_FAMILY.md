@@ -141,5 +141,4 @@ make clear that ZTAP is the first protocol under ZTI, not the only possible prot
 ---
 
 *ZTI doctrine: [github.com/bitscon/zti](https://github.com/bitscon/zti)*
-*(Note: pending rename from `bitscon/zerotrustintelligence`)*
 *ZTAP open protocol: [github.com/bitscon/ztap](https://github.com/bitscon/ztap)*

@@ -25,7 +25,7 @@ verification contract before AI output becomes action.
 
 We formalized that layer as a protocol called Zero Trust Intelligence (ZTI).
 The specification and reference implementation are public:
-github.com/bitscon/zerotrustintelligence
+github.com/bitscon/zti
 
 I'm not asking whether you need it. I'm curious whether the gap
 it addresses is one you've run into — and how you've been thinking about it.
@@ -56,7 +56,7 @@ It enforces deterministic classification, policy validation, cryptographic seali
 and approval lineage before any AI-generated proposal crosses into execution.
 
 The threat model is explicit — what it protects against and what it doesn't.
-The specification is public: github.com/bitscon/zerotrustintelligence
+The specification is public: github.com/bitscon/zti
 
 Curious whether this is a gap you've been thinking about formally,
 or whether you've landed on a different model for handling it.
@@ -72,7 +72,7 @@ and real-world systems — the layer that enforces verification before
 an AI-generated proposal becomes an action.
 
 Called Zero Trust Intelligence. Spec is public:
-github.com/bitscon/zerotrustintelligence
+github.com/bitscon/zti
 
 Is this a gap you've been working on? Worth comparing notes.
 

@@ -45,7 +45,7 @@ ZTI is a deterministic verification layer that sits between AI generation and ex
 It classifies proposals against declared policy, validates admissibility,
 seals a cryptographic decision artifact, and fails closed if the contract isn't met.
 
-The protocol and reference implementation are at bitscon/zerotrustintelligence.
+The protocol and reference implementation are at bitscon/zti.
 
 ---
 

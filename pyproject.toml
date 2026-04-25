@@ -23,10 +23,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/bitscon/zerotrustintelligence"
-Repository = "https://github.com/bitscon/zerotrustintelligence"
-Documentation = "https://github.com/bitscon/zerotrustintelligence/blob/master/whitepaper/zti-whitepaper.md"
-Issues = "https://github.com/bitscon/zerotrustintelligence/issues"
+Homepage = "https://github.com/bitscon/zti"
+Repository = "https://github.com/bitscon/zti"
+Documentation = "https://github.com/bitscon/zti/blob/master/whitepaper/zti-whitepaper.md"
+Issues = "https://github.com/bitscon/zti/issues"
 
 [project.scripts]
 zti-demo = "zti.demo.cli:main"

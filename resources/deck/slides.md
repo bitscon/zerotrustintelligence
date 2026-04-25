@@ -1,7 +1,7 @@
 # ZTI Pitch Deck — Boardroom Version
 
 12 slides. Executive tone. No hype.
-All claims sourced from: bitscon/zerotrustintelligence
+All claims sourced from: bitscon/zti
 
 ---
 
@@ -269,7 +269,7 @@ The question is when and how it gets built.
 The protocol specification, reference implementation, and full threat model
 are available at:
 
-**github.com/bitscon/zerotrustintelligence**
+**github.com/bitscon/zti**
 
 ZTI is open. The protocol is defined.
 The conversation is about adoption, not acquisition.
