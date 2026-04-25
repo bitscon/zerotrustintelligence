@@ -22,15 +22,12 @@ Author: Chad McCormack
 
 ---
 
-## Current Project Status
+## Repository Status
 
-The website is on the barn-first, single-source workflow and the demo is compiled
-deterministically from a canonical session model.
+This repository is being organized as the public doctrine and reference library
+for the Zero-Trust Intelligence ecosystem.
 
-For the current migration checkpoint, completed work, known consistency gaps, and
-the next required actions, read:
-
-- [PROJECT_STATUS.md](PROJECT_STATUS.md)
+For internal project tracking and migration notes, see [PROJECT_STATUS.md](PROJECT_STATUS.md).
 
 ---
 
