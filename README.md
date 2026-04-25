@@ -290,8 +290,7 @@ cd zti
 python3 -m pip install -e .
 ```
 
-*(Note: the install URL above reflects the final repository name `bitscon/zti`.
-Until the GitHub rename is complete, use `bitscon/zerotrustintelligence`.)*
+*(Note: the install URL above reflects the current repository name `bitscon/zti`.)*
 
 Run the test suite:
 

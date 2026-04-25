@@ -83,7 +83,7 @@ One option. Not all three.
 
 ## References
 
-Protocol specification: github.com/bitscon/zerotrustintelligence
-Reference implementation: bitscon/zerotrustintelligence (Python, MIT license)
+Protocol specification: github.com/bitscon/zti
+Reference implementation: bitscon/zti (Python, MIT license)
 Demo scenario: zti-adoption/demo/terminal-output.md
 Architecture: zti-adoption/assets/architecture.md

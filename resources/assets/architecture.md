@@ -1,7 +1,7 @@
 # Architecture Diagrams
 
 Reusable reference diagrams for ZTI adoption materials.
-All definitions sourced from: [bitscon/zerotrustintelligence](https://github.com/bitscon/zerotrustintelligence)
+All definitions sourced from: [bitscon/zti](https://github.com/bitscon/zti)
 
 ---
 

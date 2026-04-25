@@ -105,7 +105,7 @@ Left side: the canonical line in light weight sans-serif:
 "AI generates. ZTI verifies. Only verified decisions execute."
 
 Right side: monospace, muted:
-bitscon/zerotrustintelligence
+bitscon/zti
 
 ---
 
