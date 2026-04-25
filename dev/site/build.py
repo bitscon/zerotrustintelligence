@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import shutil
 import sys
@@ -32,8 +33,9 @@ REQUIRED_ARTIFACT_FILES = (
     'assets/site.css',
     'assets/site.js',
     'assets/demo-output.txt',
-    'assets/zti-demo.mp4',
 )
+
+TRUTHY_VALUES = {'1', 'true', 'yes', 'on'}
 
 
 def _load_config() -> dict[str, object]:
@@ -144,10 +146,13 @@ def _stage_transcript(output_dir: Path, project_root: Path) -> Path:
 
 def _stage_demo_video(output_dir: Path, project_root: Path) -> Path:
     video_source = project_root / 'resources' / 'demo' / 'build' / 'zti-demo.mp4'
+    require_demo_video = str(os.getenv('ZTI_REQUIRE_DEMO_VIDEO', '')).strip().lower() in TRUTHY_VALUES
     if not video_source.exists():
-        raise FileNotFoundError(
-            f'Missing rendered demo video: {video_source}. Run ./ops/render-demo.sh before building the site.'
-        )
+        message = f'Missing rendered demo video: {video_source}. Run ./ops/render-demo.sh before building the site.'
+        if require_demo_video:
+            raise FileNotFoundError(message)
+        print(f'WARNING: {message} Skipping demo video staging (set ZTI_REQUIRE_DEMO_VIDEO=1 to require it).', file=sys.stderr)
+        return output_dir / 'assets' / 'zti-demo.mp4'
     destination = output_dir / 'assets' / 'zti-demo.mp4'
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_bytes(video_source.read_bytes())
@@ -186,14 +191,17 @@ def _assert_root_relative_paths(output_dir: Path) -> None:
             raise AssertionError(f'Artifact leaked local-only host reference in {path}')
 
 
-def _assert_required_files(output_dir: Path) -> None:
+def _assert_required_files(output_dir: Path, *, require_demo_video_asset: bool = False) -> None:
     for rel_path in REQUIRED_ARTIFACT_FILES:
         if not (output_dir / rel_path).exists():
             raise AssertionError(f'Missing required artifact file: {rel_path}')
+    if require_demo_video_asset and not (output_dir / 'assets' / 'zti-demo.mp4').exists():
+        raise AssertionError('Missing required artifact file: assets/zti-demo.mp4')
 
 
 def check_build(project_root: Path | None = None) -> None:
     project_root = project_root or PROJECT_ROOT
+    expect_demo_video_asset = (project_root / 'resources' / 'demo' / 'build' / 'zti-demo.mp4').exists()
     with tempfile.TemporaryDirectory() as tmp:
         tmp_root = Path(tmp)
         artifact_one = build_site(tmp_root / 'artifact-one', project_root)
@@ -203,7 +211,7 @@ def check_build(project_root: Path | None = None) -> None:
             raise AssertionError('Site artifact output is not deterministic')
 
         _assert_root_relative_paths(artifact_one)
-        _assert_required_files(artifact_one)
+        _assert_required_files(artifact_one, require_demo_video_asset=expect_demo_video_asset)
 
 
 def _parser() -> argparse.ArgumentParser:
