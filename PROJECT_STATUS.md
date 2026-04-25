@@ -1,5 +1,9 @@
 # Project Status
 
+> **Internal operations document.** This file tracks migration checkpoints and
+> site/demo workflow state. It is not ZTI doctrine and is not intended for
+> external protocol readers.
+
 ## Current Baseline
 
 - Branch: `zti-migration-checkpoint`
@@ -9,12 +13,12 @@
 
 ## What Is In Place
 
-- The website is on a barn-first, single-source workflow.
+- Website source is managed under a single-source build workflow.
 - Authored website source lives in `dev/site/_src`.
 - The website builder lives at `dev/site/build.py`.
 - The only website artifact is `dev/site/_dist`.
-- Barn preview serves the built artifact.
-- Plesk is serve-only and is intended to receive full artifact replacement deploys.
+- Local development server previews the built artifact.
+- Production hosting receives full artifact replacement deploys.
 - The demo is now a deterministic compiler with canonical artifacts under `resources/demo`.
 - The landing page now embeds `/assets/zti-demo.mp4`.
 
@@ -37,7 +41,7 @@
 ## What Was Done
 
 - Removed the legacy `site/` workflow from normal website operations.
-- Introduced the barn-first build, verify, and deploy workflow.
+- Introduced the single-source build, verify, and deploy workflow.
 - Added the deterministic demo compiler and proof artifacts.
 - Added demo ops scripts for record, verify, play, and render.
 - Replaced the homepage video placeholder with the rendered MP4 asset.
@@ -55,7 +59,7 @@
 - Make compiler outputs the only authority used by verify paths and helper docs.
 - Extend CI to validate `zti-demo.cast` and `demo.sha256`.
 - Decide whether `resources/demo/script.md` remains a maintained artifact or is retired.
-- Verify barn-to-Plesk deployment with the MP4 included in the website artifact.
+- Verify production deployment with the MP4 included in the website artifact.
 
 ## Operator Commands
 

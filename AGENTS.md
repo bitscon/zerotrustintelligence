@@ -32,7 +32,7 @@ and next-steps source for this repository's website and demo systems.
 
 ## Website Source of Truth
 
-The website uses a barn-first, single-artifact workflow.
+The website uses a single-source, build-from-source workflow.
 
 All agents MUST follow these rules:
 
@@ -56,13 +56,13 @@ All agents MUST follow these rules:
 
    is removed from the workflow and MUST NOT be recreated or edited.
 
-5. Barn is the authority for build, verify, and deploy.
+5. The local build output is the authority for build and verify. The production host is serve-only.
 
 6. CI is validation-only. It MUST NOT deploy the website.
 
 7. Production deployment is artifact-based and full-replace only.
 
-8. Plesk is serve-only and MUST NOT be edited manually.
+8. The production host MUST NOT be edited manually.
 
 9. Any emergency hotfix made outside `/dev/site/_src/` MUST be backported into source immediately or the repo is out of policy.
 
@@ -90,7 +90,7 @@ The response MUST clearly state the directory path being used.
 
 Example:
 
-`Current working directory: /home/billyb/workspaces/zerotrustintelligence`
+`Current working directory: /path/to/zti`
 
 ## Hard Path Validation — Website Changes
 

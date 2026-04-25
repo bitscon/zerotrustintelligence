@@ -2,13 +2,18 @@
 
 ## What ZTI Is
 
-Zero Trust Intelligence (ZTI) is a protocol.
+Zero Trust Intelligence (ZTI) is a doctrine and verification protocol.
 
-Specifically: a deterministic decision verification protocol and control layer
+Specifically: a deterministic decision verification layer and governance philosophy
 that sits between stochastic AI generation and real-world execution systems.
 
 The authoritative definition lives in the protocol repository:
-[bitscon/zerotrustintelligence](https://github.com/bitscon/zerotrustintelligence)
+[bitscon/zti](https://github.com/bitscon/zti)
+
+> **Note:** This boundary document was authored from the perspective of the adoption
+> site's relationship to the ZTI doctrine repo. It remains here as a principles reference.
+> The "this repository" language below refers to any contextual/illustrative repository
+> (such as the adoption site), not the ZTI doctrine repo itself.
 
 ---
 

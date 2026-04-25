@@ -434,6 +434,8 @@ Remove the need to trust the participant.
 
 Enforce verification at the protocol level.
 
+ZTAP — the Zero Trust Agent Protocol — is the first open protocol under the ZTI doctrine. Where ZTI defines the principle that AI outputs and AI-initiated actions must be verified before they are trusted, ZTAP defines a concrete transaction, envelope, receipt, and conformance model for governed agent work. ZTAP lives separately at https://github.com/bitscon/ztap and is currently tagged `v1.0-draft`.
+
 Make proof the only acceptable gate to execution.
 
 ZTI is not a blockchain.
